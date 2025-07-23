@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DotGrid from "./DotGrid";
 import TextType from "./TextType"; // <-- Import your new animation component
 import ShinyText from "./ShinyText";
+import { TextHoverEffect } from "./ui/text-hover-effect";
 
 const Hero = () => {
   return (
@@ -71,9 +72,24 @@ const Hero = () => {
           fontSize: "13rem",
           fontWeight: "bold",
           color: "#fff",
+          display: "flex",
+          alignItems: "flex-end", // align XD to the bottom of Creato
         }}
       >
-        CreatoXD
+        <span>Creato</span>
+        <span
+          style={{
+            display: "inline-block",
+            width: "340px", // increased width
+            height: "200px", // increased height
+            verticalAlign: "bottom",
+            overflow: "visible",
+            marginLeft: "-25px",
+            marginBottom: "37px", // move XD down to align better
+          }}
+        >
+          <TextHoverEffect text="XD" />
+        </span>
       </div>
 
       {/* Bottom Right Scroll Down */}
