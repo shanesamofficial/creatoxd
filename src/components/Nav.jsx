@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import ShinyText from "./ShinyText"; // <-- Import ShinyText
 
 export default function Nav() {
   const [activeItem, setActiveItem] = useState(null);
@@ -24,7 +25,7 @@ export default function Nav() {
               onMouseEnter={() => setActiveItem(index)}
               onMouseLeave={() => setActiveItem(null)}
             >
-              {item.name}
+              <ShinyText text={item.name} speed={3} /> {/* Shiny text for nav */}
             </a>
             {activeItem === index && (
               <motion.div

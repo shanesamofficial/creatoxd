@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DotGrid from "./DotGrid";
 import TextType from "./TextType"; // <-- Import your new animation component
+import ShinyText from "./ShinyText";
 
 const Hero = () => {
   return (
@@ -53,7 +54,7 @@ const Hero = () => {
             "Photo and Video Editing",
           ]}
           typingSpeed={40}
-          pauseDuration={500}
+          pauseDuration={1000}
           deletingSpeed={25}
           showCursor={true}
           cursorCharacter="•"
@@ -91,7 +92,7 @@ const Hero = () => {
           alignItems: "center",
         }}
       >
-        scroll down
+        <ShinyText text="scroll down" speed={3} />
         {/* V-shaped arrow SVG */}
         <svg
           width="24"
