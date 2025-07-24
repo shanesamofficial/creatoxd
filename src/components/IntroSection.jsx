@@ -15,7 +15,7 @@ export default function IntroSection() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        padding: "4rem 1rem",
+        padding: "2rem 0.5rem", // less padding for mobile
       }}
     >
       <motion.h2

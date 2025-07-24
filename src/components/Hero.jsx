@@ -69,7 +69,7 @@ const Hero = () => {
           position: "absolute",
           bottom: "20px",
           left: "20px",
-          fontSize: "13rem",
+          fontSize: window.innerWidth < 600 ? "4rem" : "13rem",
           fontWeight: "bold",
           color: "#fff",
           display: "flex",

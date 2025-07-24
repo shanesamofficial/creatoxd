@@ -34,3 +34,19 @@ nav a.active {
 ::selection {
   background-color: #ec173700;
 }
+
+@media (max-width: 600px) {
+  body {
+    font-size: 15px;
+  }
+  .dot-grid__canvas {
+    width: 100vw !important;
+    height: 100vh !important;
+  }
+  nav {
+    height: 56px !important;
+  }
+  .shiny-text {
+    font-size: 1rem !important;
+  }
+}

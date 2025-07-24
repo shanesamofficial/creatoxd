@@ -10,14 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-label": "^2.1.7",
     "@splinetool/react-spline": "^4.1.0",
-    "@tabler/icons-react": "^3.34.0",
+    "@tabler/icons-react": "^3.34.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.6",
     "gsap": "^3.13.0",
     "motion": "^12.23.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-router-dom": "^7.7.0",
     "react-spinners": "^0.17.0",
     "tailwind-merge": "^3.3.1"
   },
