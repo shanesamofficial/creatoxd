@@ -20,6 +20,37 @@ body {
 
 html {
   cursor: none;
+  scroll-behavior: smooth;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.snap-container {
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Add these new styles */
+.relative {
+  position: relative;
+}
+
+.z-10 {
+  z-index: 10;
+}
+
+/* Footer specific styles */
+footer {
+  scroll-snap-align: start;
 }
 
 /* Navbar styles */

@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from "react";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion"; // Add useScroll and useMotionValueEvent
 import DotGrid from "./DotGrid";
-import TextType from "./TextType"; // <-- Import your new animation component
+import TextType from "./TextType";
 import ShinyText from "./ShinyText";
 import { TextHoverEffect } from "./ui/text-hover-effect";
 
 const Hero = () => {
+  const [visible, setVisible] = useState(true);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setVisible(latest < 100);
+  });
+
   return (
     <div
       style={{
         width: "100%",
         height: "100vh",
         position: "relative",
-        backgroundColor: "#000",
+        backgroundColor: "transparent", // Changed from #000 to transparent
         color: "#fff",
         overflow: "hidden",
       }}
@@ -92,8 +100,11 @@ const Hero = () => {
         </span>
       </div>
 
-      {/* Bottom Right Scroll Down */}
-      <div
+      {/* Scroll Down Indicator */}
+      <motion.div
+        initial={{ opacity: 1 }}
+        animate={{ opacity: visible ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
         style={{
           position: "absolute",
           bottom: "40px",
@@ -102,21 +113,25 @@ const Hero = () => {
           fontWeight: "400",
           color: "#fff",
           cursor: "pointer",
-          opacity: 0.6,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
         }}
       >
         <ShinyText text="scroll down" speed={3} />
-        {/* V-shaped arrow SVG */}
-        <svg
+        <motion.svg
           width="24"
           height="24"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={{ marginTop: "2px" }}
+          animate={{ y: visible ? [0, 5, 0] : 0 }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
         >
           <path
             d="M6 9l6 6 6-6"
@@ -126,8 +141,8 @@ const Hero = () => {
             strokeLinejoin="round"
             opacity="0.8"
           />
-        </svg>
-      </div>
+        </motion.svg>
+      </motion.div>
     </div>
   );
 };
