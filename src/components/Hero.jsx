@@ -94,7 +94,7 @@ const Hero = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
           style={{
-            height: isMobile ? "150px" : "1300px",
+            height: isMobile ? "500px" : "1300px", // Change 150px to your desired mobile size
             width: "auto",
             objectFit: "contain",
           }}
