@@ -77,7 +77,7 @@ const Hero = () => {
               position: "absolute",
               ...(isMobile
                 ? {
-                    top: "50%",
+                    top: "45%", // Changed from 50% to 45%
                     left: "50%",
                     transform: "translate(-50%, -50%)",
                   }
@@ -113,7 +113,7 @@ const Hero = () => {
             position: "absolute",
             ...(isMobile
               ? {
-                  bottom: "100px",
+                  bottom: "125px", // Changed from 100px to 125px
                   left: "50%",
                   transform: "translateX(-50%)",
                   width: "100%",
@@ -159,14 +159,15 @@ const Hero = () => {
           transition={{ duration: 0.3 }}
           style={{
             position: "absolute",
-            bottom: "30px",
             ...(isMobile
               ? {
+                  bottom: "55px", // Changed from 30px to 55px
                   left: "50%",
                   transform: "translateX(-50%)",
                 }
               : {
                   right: "40px",
+                  bottom: "30px",
                   transform: "none",
                 }),
             fontSize: "1rem",
