@@ -91,7 +91,7 @@ function App() {
 
                   {/* Footer Section */}
                   <motion.footer
-                    className="w-full py-12 text-[#ccc] bg-[#222] border-t border-[#333]"
+                    className="w-full py-12 pb-16 md:pb-12 text-[#ccc] bg-[#222] border-t border-[#333]" // Added pb-16 for mobile
                     initial={{ scale: 0.95, opacity: 0 }}
                     whileInView={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.95, opacity: 0 }}
