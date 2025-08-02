@@ -18,32 +18,47 @@ export default function Nav() {
     { name: "Partners", href: "#partners" },
   ];
 
-  // Add scroll detection
+  // Modify the scroll detection useEffect
   useEffect(() => {
     const handleScroll = () => {
       const heroSection = document.getElementById("hero-section");
       if (heroSection) {
         const rect = heroSection.getBoundingClientRect();
-        setIsInHero(rect.top <= 0 && rect.bottom >= 0);
+        // Show logo when hero section is not fully visible at the top
+        setIsInHero(rect.top > -100 && rect.bottom > 0);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Run once on mount
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 ${
+        !isInHero ? "bg-black/50 backdrop-blur-sm" : ""
+      }`}
+    >
       {/* Show logo at top-left only when NOT in hero */}
       {!isInHero && (
-        <div className="hidden md:block fixed top-4 left-8 z-[60]">
+        <motion.div
+          className="hidden md:block absolute top-5 left-8 z-[999]" // Changed fixed to absolute, increased z-index, adjusted top
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+        >
           <img
             src={logoS}
             alt="CreatoXD Logo"
             className="h-10 w-auto drop-shadow-lg"
-            style={{ pointerEvents: "none", userSelect: "none" }}
+            style={{
+              pointerEvents: "none",
+              userSelect: "none",
+              filter: "drop-shadow(0 0 10px rgba(0,0,0,0.3))", // Added shadow for better visibility
+            }}
           />
-        </div>
+        </motion.div>
       )}
 
       {/* Mobile Nav */}

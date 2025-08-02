@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { HashLoader } from "react-spinners";
+import { FaLinkedin, FaInstagram, FaTwitter } from "react-icons/fa";
 import Hero from "./components/Hero";
 import Nav from "./components/Nav";
 import IntroSection from "./components/IntroSection";
@@ -214,6 +215,39 @@ function App() {
                             Location: Kerala, India
                           </li>
                         </ul>
+                      </div>
+
+                      {/* Social Media Links - New Section */}
+                      <div className="col-span-1">
+                        <h3 className="text-white font-semibold mb-4 text-lg">
+                          Follow Us
+                        </h3>
+                        <div className="flex space-x-4">
+                          <a
+                            href="https://www.linkedin.com/company/creatoxd/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-white transition-colors"
+                          >
+                            <FaLinkedin className="w-6 h-6" />
+                          </a>
+                          <a
+                            href="https://www.instagram.com/creato.xd"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-white transition-colors"
+                          >
+                            <FaInstagram className="w-6 h-6" />
+                          </a>
+                          <a
+                            href="https://twitter.com/your-company"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-white transition-colors"
+                          >
+                            <FaTwitter className="w-6 h-6" />
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </motion.footer>

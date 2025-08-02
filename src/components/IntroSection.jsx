@@ -2,8 +2,27 @@ import React from "react";
 import { motion } from "framer-motion";
 import meImage from "../assets/me.png";
 import ShinyText from "./ShinyText";
+import { FaLinkedin, FaBehance, FaInstagram } from "react-icons/fa";
 
 const IntroSection = () => {
+  const socialLinks = [
+    {
+      icon: FaLinkedin,
+      href: "https://www.linkedin.com/in/shanesamofficial",
+      label: "LinkedIn",
+    },
+    {
+      icon: FaBehance,
+      href: "https://www.behance.net/your-profile",
+      label: "Behance",
+    },
+    {
+      icon: FaInstagram,
+      href: "https://www.instagram.com/shanesamofficial",
+      label: "Instagram",
+    },
+  ];
+
   return (
     <div
       className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12"
@@ -70,7 +89,24 @@ const IntroSection = () => {
                 </p>
               </div>
 
-              <div className="flex justify-center md:justify-start mt-4 md:mt-20"> {/* Added more margin-top for desktop */}
+              {/* Social Links */}
+              <div className="flex items-center justify-center md:justify-start space-x-4">
+                {socialLinks.map((social) => (
+                  <motion.a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/70 hover:text-white text-2xl transition-colors"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <social.icon />
+                  </motion.a>
+                ))}
+              </div>
+
+              <div className="flex justify-center md:justify-start mt-4 md:mt-20">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}

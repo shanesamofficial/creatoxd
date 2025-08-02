@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { motion } from "framer-motion";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
@@ -11,73 +12,80 @@ export function ContactForm() {
     // You can add your form submission logic here
     console.log("Contact form submitted");
   };
-  return (
-    <div
-      className="mx-auto w-[90%] sm:w-full bg-white dark:bg-black rounded-xl md:rounded-2xl shadow-input p-4 sm:p-8 flex flex-col md:flex-row items-center md:items-start"
-      style={{
-        minHeight: "380px",
-        maxWidth: "800px",
-        margin: "0 auto",
-      }}
-    >
-      {/* Left Side: Title and Subtext */}
-      <div className="flex-1 flex flex-col justify-center items-start pr-0 md:pr-12 mb-4 md:mb-8">
-        <h2
-          className="text-2xl sm:text-4xl md:text-6xl font-extrabold text-neutral-800 dark:text-neutral-200 mb-2 sm:mb-4"
-          style={{ textAlign: "left" }}
-        >
-          Contact Us!
-        </h2>
-        <p
-          className="mt-1 sm:mt-2 max-w-md text-base sm:text-lg md:text-xl text-neutral-600 dark:text-neutral-300"
-          style={{ textAlign: "left" }}
-        >
-          We'd love to hear from you! Fill out the form and we'll get back to you
-          soon.
-        </p>
-      </div>
 
-      {/* Right Side: Form */}
-      <form
-        className="flex-1 w-full"
-        onSubmit={handleSubmit}
+  return (
+    <motion.div
+      className="backdrop-blur-sm bg-white/5 rounded-2xl p-8 md:p-12 border border-white/10"
+      whileHover={{
+        boxShadow: "0 0 30px rgba(255,255,255,0.1)",
+        borderColor: "rgba(255,255,255,0.2)",
+        transition: { duration: 0.3 },
+      }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      <div
+        className="mx-auto w-[90%] sm:w-full bg-transparent rounded-xl md:rounded-2xl p-4 sm:p-8 flex flex-col md:flex-row items-center md:items-start"
         style={{
-          minWidth: "280px",
-          maxWidth: "400px", // Added max-width for desktop form
+          minHeight: "380px",
+          maxWidth: "800px",
+          margin: "0 auto",
         }}
       >
-        <LabelInputContainer className="mb-3 sm:mb-4">
-          <Label htmlFor="name">Your Name</Label>
-          <Input id="name" placeholder="John Doe" type="text" required />
-        </LabelInputContainer>
-        <LabelInputContainer className="mb-4">
-          <Label htmlFor="email">Email Address</Label>
-          <Input id="email" placeholder="you@example.com" type="email" required />
-        </LabelInputContainer>
-        <LabelInputContainer className="mb-4">
-          <Label htmlFor="subject">Subject</Label>
-          <Input id="subject" placeholder="How can we help you?" type="text" />
-        </LabelInputContainer>
-        <LabelInputContainer className="mb-8">
-          <Label htmlFor="message">Message</Label>
-          <Input
-            id="message"
-            placeholder="Type your message here..."
-            type="text"
-            as="textarea"
-            style={{ minHeight: "100px" }}
-            required
-          />
-        </LabelInputContainer>
-        <HoverBorderGradient
-          containerClassName="w-full mt-2"
-          className="font-semibold text-lg"
-          type="submit"
+        {/* Left Side: Title and Subtext */}
+        <div className="flex-1 flex flex-col justify-center items-start pr-0 md:pr-12 mb-4 md:mb-8">
+          <h2 className="text-2xl sm:text-4xl md:text-6xl font-extrabold text-neutral-200 mb-2 sm:mb-4">
+            Contact Us!
+          </h2>
+          <p className="mt-1 sm:mt-2 max-w-md text-base sm:text-lg md:text-xl text-neutral-300">
+            We'd love to hear from you! Fill out the form and we'll get back to
+            you soon.
+          </p>
+        </div>
+
+        {/* Right Side: Form */}
+        <form
+          className="flex-1 w-full"
+          onSubmit={handleSubmit}
+          style={{
+            minWidth: "280px",
+            maxWidth: "400px", // Added max-width for desktop form
+          }}
         >
-          Send Message &rarr;
-        </HoverBorderGradient>
-      </form>
-    </div>
+          <LabelInputContainer className="mb-3 sm:mb-4">
+            <Label htmlFor="name">Your Name</Label>
+            <Input id="name" placeholder="John Doe" type="text" required />
+          </LabelInputContainer>
+          <LabelInputContainer className="mb-4">
+            <Label htmlFor="email">Email Address</Label>
+            <Input id="email" placeholder="you@example.com" type="email" required />
+          </LabelInputContainer>
+          <LabelInputContainer className="mb-4">
+            <Label htmlFor="subject">Subject</Label>
+            <Input id="subject" placeholder="How can we help you?" type="text" />
+          </LabelInputContainer>
+          <LabelInputContainer className="mb-8">
+            <Label htmlFor="message">Message</Label>
+            <Input
+              id="message"
+              placeholder="Type your message here..."
+              type="text"
+              as="textarea"
+              style={{ minHeight: "100px" }}
+              required
+            />
+          </LabelInputContainer>
+          <HoverBorderGradient
+            containerClassName="w-full mt-2"
+            className="font-semibold text-lg"
+            type="submit"
+          >
+            Send Message &rarr;
+          </HoverBorderGradient>
+        </form>
+      </div>
+    </motion.div>
   );
 }
 
