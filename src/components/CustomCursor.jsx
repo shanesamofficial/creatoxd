@@ -1,50 +1,48 @@
 import React, { useEffect, useRef } from "react";
 
-const CustomCursor = () => {
+export default function CustomCursor() {
   const cursorRef = useRef(null);
+  const ringRef = useRef(null);
 
   useEffect(() => {
-    const moveCursor = (e) => {
-      if (cursorRef.current) {
-        cursorRef.current.style.left = `${e.clientX}px`;
-        cursorRef.current.style.top = `${e.clientY}px`;
-      }
-    };
-    document.addEventListener("mousemove", moveCursor);
-    return () => document.removeEventListener("mousemove", moveCursor);
+    // Only initialize cursor on desktop devices
+    if (window.innerWidth > 768) {
+      const cursor = cursorRef.current;
+      const ring = ringRef.current;
+
+      const moveCursor = (e) => {
+        const mouseY = e.clientY;
+        const mouseX = e.clientX;
+
+        cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+        ring.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+      };
+
+      window.addEventListener("mousemove", moveCursor);
+
+      return () => {
+        window.removeEventListener("mousemove", moveCursor);
+      };
+    }
   }, []);
 
-  return (
-    <div
-      ref={cursorRef}
-      style={{
-        position: "fixed",
-        left: 0,
-        top: 0,
-        width: "32px",
-        height: "32px",
-        borderRadius: "50%",
-        pointerEvents: "none",
-        transform: "translate(-50%, -50%)",
-        zIndex: 9999,
-        mixBlendMode: "difference",
-        background: "transparent",
-        border: "2px solid #ffffff4b",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <div
-        style={{
-          width: "8px",
-          height: "8px",
-          borderRadius: "50%",
-          background: "#ffffff79",
-        }}
-      />
-    </div>
-  );
-};
+  // Don't render cursor on mobile devices
+  if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+    return null;
+  }
 
-export default CustomCursor;
+  return (
+    <>
+      <div
+        ref={cursorRef}
+        className="fixed top-0 left-0 w-4 h-4 bg-white rounded-full pointer-events-none mix-blend-difference z-50 transition-transform duration-100 ease-out"
+        style={{ transform: "translate3d(0, 0, 0)" }}
+      />
+      <div
+        ref={ringRef}
+        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-white pointer-events-none mix-blend-difference z-50 transition-transform duration-300 ease-out"
+        style={{ transform: "translate3d(0, 0, 0)" }}
+      />
+    </>
+  );
+}

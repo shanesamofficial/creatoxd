@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion"; // Add useScroll and useMotionValueEvent
-import DotGrid from "./DotGrid";
+import React, { useState } from "react";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import TextType from "./TextType";
 import ShinyText from "./ShinyText";
-import { TextHoverEffect } from "./ui/text-hover-effect";
+import logo from "../assets/logo.png"; // Import the logo
 
 const Hero = () => {
   const [visible, setVisible] = useState(true);
@@ -19,36 +18,23 @@ const Hero = () => {
         width: "100%",
         height: "100vh",
         position: "relative",
-        backgroundColor: "transparent", // Changed from #000 to transparent
+        backgroundColor: "transparent",
         color: "#fff",
         overflow: "hidden",
       }}
     >
-      {/* Dot Grid */}
-      <DotGrid
-        dotSize={3}
-        gap={15}
-        baseColor="#271E37"
-        activeColor="#5227FF"
-        proximity={120}
-        shockRadius={400}
-        shockStrength={5}
-        resistance={750}
-        returnDuration={1.5}
-      />
-
-      {/* Animated Subtitle Above 'CreatoXD' */}
+      {/* Animated Subtitle Above Logo */}
       <div
         style={{
           position: "absolute",
-          bottom: "30px", // adjust as needed for spacing above CreatoXD
+          bottom: "30px",
           left: "55px",
           fontSize: "2rem",
           fontWeight: "500",
           color: "#e0e0e0",
           letterSpacing: "1px",
           minHeight: "2.5rem",
-          fontFamily: "'Montserrat', 'Poppins', 'Segoe UI', Arial, sans-serif", // improved font
+          fontFamily: "'Montserrat', 'Poppins', 'Segoe UI', Arial, sans-serif",
           transition: "opacity 0.3s",
           opacity: 0.65,
           pointerEvents: "none",
@@ -71,33 +57,25 @@ const Hero = () => {
         />
       </div>
 
-      {/* Bottom Left Text */}
+      {/* Bottom Left Logo */}
       <div
         style={{
           position: "absolute",
-          bottom: "20px",
-          left: "20px",
-          fontSize: window.innerWidth < 600 ? "4rem" : "13rem",
-          fontWeight: "bold",
-          color: "#fff",
+          bottom: "-450px",
+          left: "-150px",
           display: "flex",
-          alignItems: "flex-end", // align XD to the bottom of Creato
+          alignItems: "flex-end",
         }}
       >
-        <span>Creato</span>
-        <span
+        <img
+          src={logo}
+          alt="CreatoXD Logo"
           style={{
-            display: "inline-block",
-            width: "340px", // increased width
-            height: "200px", // increased height
-            verticalAlign: "bottom",
-            overflow: "visible",
-            marginLeft: "-25px",
-            marginBottom: "37px", // move XD down to align better
+            height: window.innerWidth < 600 ? "60px" : "1300px", // Adjust these values based on your logo size
+            width: "auto",
+            objectFit: "contain",
           }}
-        >
-          <TextHoverEffect text="XD" />
-        </span>
+        />
       </div>
 
       {/* Scroll Down Indicator */}
