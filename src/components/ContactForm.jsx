@@ -13,31 +13,40 @@ export function ContactForm() {
   };
   return (
     <div
-      className="mx-auto w-full max-w-5xl bg-white dark:bg-black rounded-none md:rounded-2xl shadow-input p-8 flex flex-col md:flex-row items-center md:items-start"
-      style={{ minHeight: "420px" }}
+      className="mx-auto w-[90%] sm:w-full bg-white dark:bg-black rounded-none md:rounded-2xl shadow-input p-4 sm:p-8 flex flex-col md:flex-row items-center md:items-start"
+      style={{
+        minHeight: "380px",
+        maxWidth: "800px", // Increased for desktop
+        margin: "0 auto",
+      }}
     >
       {/* Left Side: Title and Subtext */}
-      <div className="flex-1 flex flex-col justify-center items-start pr-0 md:pr-12 mb-8 md:mb-0">
+      <div className="flex-1 flex flex-col justify-center items-start pr-0 md:pr-12 mb-4 md:mb-8">
         <h2
-          className="text-4xl md:text-6xl font-extrabold text-neutral-800 dark:text-neutral-200 mb-4"
+          className="text-2xl sm:text-4xl md:text-6xl font-extrabold text-neutral-800 dark:text-neutral-200 mb-2 sm:mb-4"
           style={{ textAlign: "left" }}
         >
           Contact Us!
         </h2>
         <p
-          className="mt-2 max-w-md text-lg md:text-xl text-neutral-600 dark:text-neutral-300"
+          className="mt-1 sm:mt-2 max-w-md text-base sm:text-lg md:text-xl text-neutral-600 dark:text-neutral-300"
           style={{ textAlign: "left" }}
         >
-          We'd love to hear from you! Fill out the form and we'll get back to you soon.
+          We'd love to hear from you! Fill out the form and we'll get back to you
+          soon.
         </p>
       </div>
+
       {/* Right Side: Form */}
       <form
-        className="flex-1 w-full max-w-md"
+        className="flex-1 w-full"
         onSubmit={handleSubmit}
-        style={{ minWidth: "300px" }}
+        style={{
+          minWidth: "280px",
+          maxWidth: "400px", // Added max-width for desktop form
+        }}
       >
-        <LabelInputContainer className="mb-4">
+        <LabelInputContainer className="mb-3 sm:mb-4">
           <Label htmlFor="name">Your Name</Label>
           <Input id="name" placeholder="John Doe" type="text" required />
         </LabelInputContainer>
@@ -73,9 +82,7 @@ export function ContactForm() {
 }
 
 const LabelInputContainer = ({ children, className }) => (
-  <div className={cn("flex w-full flex-col space-y-2", className)}>
-    {children}
-  </div>
+  <div className={cn("flex w-full flex-col space-y-2", className)}>{children}</div>
 );
 
 export default ContactForm;
