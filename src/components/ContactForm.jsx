@@ -13,10 +13,10 @@ export function ContactForm() {
   };
   return (
     <div
-      className="mx-auto w-[90%] sm:w-full bg-white dark:bg-black rounded-none md:rounded-2xl shadow-input p-4 sm:p-8 flex flex-col md:flex-row items-center md:items-start"
+      className="mx-auto w-[90%] sm:w-full bg-white dark:bg-black rounded-xl md:rounded-2xl shadow-input p-4 sm:p-8 flex flex-col md:flex-row items-center md:items-start"
       style={{
         minHeight: "380px",
-        maxWidth: "800px", // Increased for desktop
+        maxWidth: "800px",
         margin: "0 auto",
       }}
     >
