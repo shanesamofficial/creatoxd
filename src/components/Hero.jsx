@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import TextType from "./TextType";
 import ShinyText from "./ShinyText";
-import logo from "../assets/logo.png"; // Import the logo
+import logo from "../assets/logo.png";
 
 const Hero = () => {
   const [visible, setVisible] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
   const { scrollY } = useScroll();
+
+  // Add resize listener
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 600);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setVisible(latest < 100);
@@ -23,13 +34,13 @@ const Hero = () => {
         overflow: "hidden",
       }}
     >
-      {/* Animated Subtitle Above Logo */}
+      {/* Animated Subtitle */}
       <div
         style={{
           position: "absolute",
-          bottom: "30px",
+          bottom: isMobile ? "120px" : "30px",
           left: "55px",
-          fontSize: "2rem",
+          fontSize: isMobile ? "1.5rem" : "2rem",
           fontWeight: "500",
           color: "#e0e0e0",
           letterSpacing: "1px",
@@ -57,21 +68,33 @@ const Hero = () => {
         />
       </div>
 
-      {/* Bottom Left Logo */}
+      {/* Logo - Positioned based on screen size */}
       <div
         style={{
           position: "absolute",
-          bottom: "-450px",
-          left: "-150px",
+          ...(isMobile
+            ? {
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }
+            : {
+                bottom: "-450px",
+                left: "-150px",
+              }),
           display: "flex",
-          alignItems: "flex-end",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <img
+        <motion.img
           src={logo}
           alt="CreatoXD Logo"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
           style={{
-            height: window.innerWidth < 600 ? "60px" : "1300px", // Adjust these values based on your logo size
+            height: isMobile ? "150px" : "1300px",
             width: "auto",
             objectFit: "contain",
           }}
