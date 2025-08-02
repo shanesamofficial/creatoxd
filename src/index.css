@@ -82,6 +82,46 @@ nav.scrolled {
   background-color: #ec173700;
 }
 
+/* Add background image styles */
+#hero-section {
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  image-rendering: auto; /* Reset image rendering */
+  position: relative;
+}
+
+/* Lighter overlay */
+#hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.3)
+  );
+  backdrop-filter: blur(0.5px);
+  z-index: 1;
+}
+
+/* Ensure content is visible above overlay */
+#hero-section > .relative.z-10 {
+  position: relative;
+  z-index: 2; /* Higher than the overlay's z-index */
+}
+
+/* Media query for better mobile performance */
+@media (max-width: 768px) {
+  #hero-section {
+    background-attachment: scroll;
+  }
+}
+
 @media (max-width: 600px) {
   body {
     font-size: 15px;

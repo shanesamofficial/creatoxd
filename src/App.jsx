@@ -6,7 +6,6 @@ import Hero from "./components/Hero";
 import Nav from "./components/Nav";
 import IntroSection from "./components/IntroSection";
 import CustomCursor from "./components/CustomCursor";
-import DotGrid from "./components/DotGrid";
 import ContactForm from "./components/ContactForm";
 import ContactPage from "./pages/Contact";
 import ServicesSection from "./components/ServicesSection";
@@ -39,15 +38,8 @@ function App() {
           path="/"
           element={
             <AnimatePresence mode="wait">
-              <motion.div
-                className="snap-container"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.8 }}
-                key="home"
-              >
-                {/* Hero Section - Keep DotGrid here */}
+              <motion.div className="snap-container">
+                {/* Hero Section - Remove DotGrid */}
                 <motion.section
                   className="min-h-screen relative"
                   initial={{ scale: 0.95, opacity: 0 }}
@@ -55,13 +47,6 @@ function App() {
                   exit={{ scale: 0.95, opacity: 0 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                 >
-                  <DotGrid
-                    className="absolute inset-0 z-0"
-                    dotSize={3}
-                    gap={15}
-                    baseColor="#271E37"
-                    activeColor="#5227FF"
-                  />
                   <Hero />
                 </motion.section>
 

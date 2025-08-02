@@ -3,6 +3,7 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import TextType from "./TextType";
 import ShinyText from "./ShinyText";
 import logo from "../assets/logo.png";
+import bgImage from "../assets/bg.jpg";
 
 const Hero = () => {
   const [visible, setVisible] = useState(true);
@@ -44,143 +45,166 @@ const Hero = () => {
         width: "100%",
         height: "100vh",
         position: "relative",
-        backgroundColor: "transparent",
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundColor: "black",
         color: "#fff",
         overflow: "hidden",
       }}
     >
-      {/* Animated Subtitle - Updated positioning */}
+      {/* Background Overlay - Make it lighter and set z-index: 1 */}
       <div
+        className="absolute inset-0"
         style={{
-          position: "absolute",
-          ...(isMobile
-            ? {
-                bottom: "80px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: "100%",
-                textAlign: "center",
-              }
-            : {
-                bottom: "30px",
-                left: "55px",
-                transform: "none",
-              }),
-          fontSize: isMobile ? "1.2rem" : "2rem", // Smaller font on mobile
-          fontWeight: "500",
-          color: "#e0e0e0",
-          letterSpacing: "1px",
-          minHeight: "2.5rem",
-          fontFamily: "'Montserrat', 'Poppins', 'Segoe UI', Arial, sans-serif",
-          transition: "opacity 0.3s",
-          opacity: 0.65,
+          background:
+            "linear-gradient(to bottom, rgba(0,0,0,0.05), rgba(0,0,0,0.15))",
+          zIndex: 1,
           pointerEvents: "none",
-          userSelect: "none",
         }}
-      >
-        <TextType
-          text={[
-            "Graphic Designing",
-            "Web Development",
-            "UI/UX Designing",
-            "Photo and Video Editing",
-          ]}
-          typingSpeed={40}
-          pauseDuration={1000}
-          deletingSpeed={25}
-          showCursor={true}
-          cursorCharacter="•"
-          cursorBlinkDuration={0.9}
-        />
-      </div>
+      />
 
-      {/* Logo - Only show in hero section on mobile */}
-      {(!isMobile || (isMobile && isInHero)) && (
+      {/* Content Container - z-index: 2 to be above overlay */}
+      <div
+        className="relative"
+        style={{ zIndex: 2, width: "100%", height: "100%" }}
+      >
+        {/* Logo */}
+        {(!isMobile || (isMobile && isInHero)) && (
+          <div
+            style={{
+              position: "absolute",
+              ...(isMobile
+                ? {
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                  }
+                : {
+                    bottom: "-450px",
+                    left: "-150px",
+                  }),
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 3,
+            }}
+          >
+            <motion.img
+              src={logo}
+              alt="CreatoXD Logo"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8 }}
+              style={{
+                height: isMobile ? "300px" : "1300px",
+                width: "auto",
+                objectFit: "contain",
+                maxWidth: isMobile ? "90vw" : "none",
+              }}
+            />
+          </div>
+        )}
+
+        {/* Animated Subtitle */}
         <div
           style={{
             position: "absolute",
             ...(isMobile
               ? {
-                  top: "50%",
+                  bottom: "100px",
                   left: "50%",
-                  transform: "translate(-50%, -50%)",
+                  transform: "translateX(-50%)",
+                  width: "100%",
+                  textAlign: "center",
                 }
               : {
-                  bottom: "-450px",
-                  left: "-150px",
+                  bottom: "30px",
+                  left: "55px",
+                  transform: "none",
                 }),
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            fontSize: isMobile ? "1.2rem" : "2rem",
+            fontWeight: "500",
+            color: "#ffffff",
+            letterSpacing: "1px",
+            minHeight: "2.5rem",
+            fontFamily: "'Montserrat', 'Poppins', 'Segoe UI', Arial, sans-serif",
+            opacity: 1,
+            pointerEvents: "none",
+            userSelect: "none",
+            zIndex: 3,
           }}
         >
-          <motion.img
-            src={logo}
-            alt="CreatoXD Logo"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            style={{
-              height: isMobile ? "500px" : "1300px", // Increased mobile size to 500px
-              width: "auto",
-              objectFit: "contain",
-              maxWidth: isMobile ? "90vw" : "none", // Prevent overflow on mobile
-            }}
+          <TextType
+            text={[
+              "Graphic Designing",
+              "Web Development",
+              "UI/UX Designing",
+              "Photo and Video Editing",
+            ]}
+            typingSpeed={40}
+            pauseDuration={1000}
+            deletingSpeed={25}
+            showCursor={true}
+            cursorCharacter="•"
+            cursorBlinkDuration={0.9}
           />
         </div>
-      )}
 
-      {/* Scroll Down Indicator - Updated positioning */}
-      <motion.div
-        initial={{ opacity: 1 }}
-        animate={{ opacity: visible ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
-        style={{
-          position: "absolute",
-          bottom: "20px",
-          ...(isMobile
-            ? {
-                left: "50%",
-                transform: "translateX(-50%)",
-              }
-            : {
-                right: "40px",
-                transform: "none",
-              }),
-          fontSize: "1rem",
-          fontWeight: "400",
-          color: "#fff",
-          cursor: "pointer",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <ShinyText text="scroll down" speed={3} />
-        <motion.svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ marginTop: "2px" }}
-          animate={{ y: visible ? [0, 5, 0] : 0 }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut",
+        {/* Scroll Down Indicator */}
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: visible ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+          style={{
+            position: "absolute",
+            bottom: "30px",
+            ...(isMobile
+              ? {
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                }
+              : {
+                  right: "40px",
+                  transform: "none",
+                }),
+            fontSize: "1rem",
+            fontWeight: "400",
+            color: "#ffffff",
+            cursor: "pointer",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            zIndex: 3,
           }}
         >
-          <path
-            d="M6 9l6 6 6-6"
-            stroke="#fff"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            opacity="0.8"
-          />
-        </motion.svg>
-      </motion.div>
+          <ShinyText text="scroll down" speed={3} />
+          <motion.svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ marginTop: "2px" }}
+            animate={{ y: visible ? [0, 5, 0] : 0 }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <path
+              d="M6 9l6 6 6-6"
+              stroke="#fff"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0.9"
+            />
+          </motion.svg>
+        </motion.div>
+      </div>
     </div>
   );
 };
