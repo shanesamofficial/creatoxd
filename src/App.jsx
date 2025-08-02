@@ -10,6 +10,7 @@ import ContactForm from "./components/ContactForm";
 import ContactPage from "./pages/Contact";
 import ServicesSection from "./components/ServicesSection";
 import GradientBackground from "./components/GradientBackground";
+import logo from "./assets/logo-s.png";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -39,7 +40,7 @@ function App() {
           element={
             <AnimatePresence mode="wait">
               <motion.div className="snap-container">
-                {/* Hero Section - Remove DotGrid */}
+                {/* Hero Section */}
                 <motion.section
                   className="min-h-screen relative"
                   initial={{ scale: 0.95, opacity: 0 }}
@@ -50,18 +51,7 @@ function App() {
                   <Hero />
                 </motion.section>
 
-                {/* Intro Section - Remove DotGrid */}
-                <motion.section
-                  className="min-h-screen relative bg-black"
-                  initial={{ scale: 0.95, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.95, opacity: 0 }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
-                >
-                  <IntroSection />
-                </motion.section>
-
-                {/* Services Section - Remove DotGrid */}
+                {/* Services Section */}
                 <motion.section
                   className="min-h-screen relative bg-black"
                   initial={{ scale: 0.95, opacity: 0 }}
@@ -72,17 +62,28 @@ function App() {
                   <ServicesSection />
                 </motion.section>
 
+                {/* Intro Section - Moved here */}
+                <motion.section
+                  className="min-h-screen relative bg-black"
+                  initial={{ scale: 0.95, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.95, opacity: 0 }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                >
+                  <IntroSection />
+                </motion.section>
+
                 {/* Combined Contact and Footer Page */}
                 <motion.div className="min-h-screen relative bg-black flex flex-col">
                   {/* Contact Form Section */}
                   <motion.section
-                    className="flex items-center justify-center py-4" // Reduced padding and removed flex-1
+                    className="flex items-center justify-center py-4"
                     initial={{ scale: 0.95, opacity: 0 }}
                     whileInView={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.95, opacity: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                   >
-                    <div className="relative z-10"> {/* Removed py-4 padding */}
+                    <div className="relative z-10">
                       <ContactForm />
                     </div>
                   </motion.section>
@@ -97,28 +98,18 @@ function App() {
                   >
                     <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-12">
                       {/* Logo and Description */}
-                      <div className="col-span-1">
-                        <div className="flex items-baseline mb-6">
-                          <span
-                            className="text-4xl font-bold text-white"
-                            style={{
-                              fontFamily:
-                                "'Montserrat', 'Poppins', 'Segoe UI', Arial, sans-serif",
+                      <div className="col-span-1 flex flex-col items-center md:items-start">
+                        <div className="mb-4 md:-mb-8 flex justify-center md:justify-start w-full md:pl-0">
+                          <img
+                            src={logo}
+                            alt="CreatoXD Logo"
+                            className="h-12 sm:h-24 md:h-36 w-auto object-contain -ml-0 md:-ml-4" // Added negative margin for desktop
+                            style={{ 
+                              maxWidth: '100%',
                             }}
-                          >
-                            Creato
-                          </span>
-                          <span
-                            className="text-4xl font-bold text-[#5227FF]"
-                            style={{
-                              fontFamily:
-                                "'Montserrat', 'Poppins', 'Segoe UI', Arial, sans-serif",
-                            }}
-                          >
-                            XD
-                          </span>
+                          />
                         </div>
-                        <p className="text-sm text-gray-400 mb-4">
+                        <p className="text-sm md:text-base text-gray-400 text-center md:text-left">
                           Empowering Creativity, Delivering Excellence.
                         </p>
                       </div>
@@ -212,10 +203,15 @@ function App() {
                         </h3>
                         <ul className="space-y-3">
                           <li className="text-gray-400">
-                            Email: contact@creatoxd.com
+                            <a
+                              href="mailto:team.creatoxd@gmail.com"
+                              className="hover:text-white transition-colors"
+                            >
+                              Email: team.creatoxd@gmail.com
+                            </a>
                           </li>
                           <li className="text-gray-400">
-                            Location: Your Location Here
+                            Location: Kerala, India
                           </li>
                         </ul>
                       </div>
