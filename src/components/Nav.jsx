@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import ShinyText from "./ShinyText";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
+import logoS from "../assets/logo-s.png"; // Add this at the top
 
 export default function Nav() {
   const [activeItem, setActiveItem] = useState(null);
@@ -33,6 +34,18 @@ export default function Nav() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
+      {/* Show logo at top-left only when NOT in hero */}
+      {!isInHero && (
+        <div className="hidden md:block fixed top-4 left-8 z-[60]">
+          <img
+            src={logoS}
+            alt="CreatoXD Logo"
+            className="h-10 w-auto drop-shadow-lg"
+            style={{ pointerEvents: "none", userSelect: "none" }}
+          />
+        </div>
+      )}
+
       {/* Mobile Nav */}
       <div className="md:hidden flex items-center justify-end h-20 px-8">
         {/* Hamburger Menu Button */}
