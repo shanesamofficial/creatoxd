@@ -8,6 +8,7 @@ const Hero = () => {
   const [visible, setVisible] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
   const { scrollY } = useScroll();
+  const [isInHero, setIsInHero] = useState(true);
 
   // Add resize listener
   useEffect(() => {
@@ -23,8 +24,22 @@ const Hero = () => {
     setVisible(latest < 100);
   });
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const heroSection = document.getElementById("hero-section");
+      if (heroSection) {
+        const rect = heroSection.getBoundingClientRect();
+        setIsInHero(rect.top <= 0 && rect.bottom >= 0);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div
+      id="hero-section"
       style={{
         width: "100%",
         height: "100vh",
@@ -34,13 +49,24 @@ const Hero = () => {
         overflow: "hidden",
       }}
     >
-      {/* Animated Subtitle */}
+      {/* Animated Subtitle - Updated positioning */}
       <div
         style={{
           position: "absolute",
-          bottom: isMobile ? "120px" : "30px",
-          left: "55px",
-          fontSize: isMobile ? "1.5rem" : "2rem",
+          ...(isMobile
+            ? {
+                bottom: "80px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: "100%",
+                textAlign: "center",
+              }
+            : {
+                bottom: "30px",
+                left: "55px",
+                transform: "none",
+              }),
+          fontSize: isMobile ? "1.2rem" : "2rem", // Smaller font on mobile
           fontWeight: "500",
           color: "#e0e0e0",
           letterSpacing: "1px",
@@ -68,48 +94,59 @@ const Hero = () => {
         />
       </div>
 
-      {/* Logo - Positioned based on screen size */}
-      <div
-        style={{
-          position: "absolute",
-          ...(isMobile
-            ? {
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-              }
-            : {
-                bottom: "-450px",
-                left: "-150px",
-              }),
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <motion.img
-          src={logo}
-          alt="CreatoXD Logo"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
+      {/* Logo - Only show in hero section on mobile */}
+      {(!isMobile || (isMobile && isInHero)) && (
+        <div
           style={{
-            height: isMobile ? "500px" : "1300px", // Change 150px to your desired mobile size
-            width: "auto",
-            objectFit: "contain",
+            position: "absolute",
+            ...(isMobile
+              ? {
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }
+              : {
+                  bottom: "-450px",
+                  left: "-150px",
+                }),
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
-        />
-      </div>
+        >
+          <motion.img
+            src={logo}
+            alt="CreatoXD Logo"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            style={{
+              height: isMobile ? "500px" : "1300px", // Increased mobile size to 500px
+              width: "auto",
+              objectFit: "contain",
+              maxWidth: isMobile ? "90vw" : "none", // Prevent overflow on mobile
+            }}
+          />
+        </div>
+      )}
 
-      {/* Scroll Down Indicator */}
+      {/* Scroll Down Indicator - Updated positioning */}
       <motion.div
         initial={{ opacity: 1 }}
         animate={{ opacity: visible ? 1 : 0 }}
         transition={{ duration: 0.3 }}
         style={{
           position: "absolute",
-          bottom: "40px",
-          right: "40px",
+          bottom: "20px",
+          ...(isMobile
+            ? {
+                left: "50%",
+                transform: "translateX(-50%)",
+              }
+            : {
+                right: "40px",
+                transform: "none",
+              }),
           fontSize: "1rem",
           fontWeight: "400",
           color: "#fff",

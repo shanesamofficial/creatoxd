@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import ShinyText from "./ShinyText";
@@ -8,6 +8,7 @@ import { HoverBorderGradient } from "./ui/hover-border-gradient";
 export default function Nav() {
   const [activeItem, setActiveItem] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [isInHero, setIsInHero] = useState(true);
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -16,15 +17,24 @@ export default function Nav() {
     { name: "Partners", href: "#partners" },
   ];
 
+  // Add scroll detection
+  useEffect(() => {
+    const handleScroll = () => {
+      const heroSection = document.getElementById("hero-section");
+      if (heroSection) {
+        const rect = heroSection.getBoundingClientRect();
+        setIsInHero(rect.top <= 0 && rect.bottom >= 0);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
       {/* Mobile Nav */}
-      <div className="md:hidden flex items-center justify-between h-20 bg-black/50 backdrop-blur-lg px-8">
-        <Link to="/" className="text-2xl font-bold">
-          <span className="text-white">Creato</span>
-          <span className="text-[#5227FF]">XD</span>
-        </Link>
-
+      <div className="md:hidden flex items-center justify-end h-20 px-8">
         {/* Hamburger Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -48,55 +58,6 @@ export default function Nav() {
         </button>
       </div>
 
-      {/* Desktop Nav */}
-      <div className="hidden md:flex items-center h-20 px-8 w-full justify-between">
-        {/* Left side navigation items */}
-        <div className="flex items-center space-x-8">
-          {navItems.map((item, index) => (
-            <div key={item.name} className="relative">
-              {item.href.startsWith("/") ? (
-                <Link
-                  to={item.href}
-                  className="relative z-10 px-4 py-2 text-white transition-colors duration-200 text-sm"
-                  onMouseEnter={() => setActiveItem(index)}
-                  onMouseLeave={() => setActiveItem(null)}
-                >
-                  <ShinyText text={item.name} speed={3} />
-                </Link>
-              ) : (
-                <a
-                  href={item.href}
-                  className="relative z-10 px-4 py-2 text-white transition-colors duration-200 text-sm"
-                  onMouseEnter={() => setActiveItem(index)}
-                  onMouseLeave={() => setActiveItem(null)}
-                >
-                  <ShinyText text={item.name} speed={3} />
-                </a>
-              )}
-              {activeItem === index && (
-                <motion.div
-                  layoutId="bubble"
-                  className="absolute inset-0 bg-white/10 rounded-full -z-10"
-                  style={{ backdropFilter: "blur(8px)" }}
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Right side contact button */}
-        <Link to="/contact">
-          <HoverBorderGradient
-            containerClassName="rounded-full"
-            className="font-semibold text-white px-6 py-2 text-base"
-            as="button"
-          >
-            Contact Us!
-          </HoverBorderGradient>
-        </Link>
-      </div>
-
       {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
@@ -104,14 +65,30 @@ export default function Nav() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 bg-black/95 backdrop-blur-lg md:hidden pt-20"
+            className="fixed inset-0 bg-black/95 backdrop-blur-lg md:hidden pt-20 z-50"
           >
+            {/* Close button - positioned absolutely */}
+            <button
+              onClick={() => setIsOpen(false)}
+              className="absolute top-6 right-8 z-50"
+              style={{ color: "white" }}
+            >
+              <motion.div className="w-10 h-10 flex flex-col justify-center items-center">
+                <motion.div
+                  animate={{ rotate: 45 }}
+                  className="w-6 h-0.5 bg-white absolute"
+                />
+                <motion.div
+                  animate={{ rotate: -45 }}
+                  className="w-6 h-0.5 bg-white absolute"
+                />
+              </motion.div>
+            </button>
+
+            {/* Menu content */}
             <div className="flex flex-col items-center space-y-8 p-8">
               {navItems.map((item, index) => (
-                <motion.div
-                  key={item.name}
-                  className="w-full text-center"
-                >
+                <motion.div key={item.name} className="w-full text-center">
                   {item.href.startsWith("/") ? (
                     <Link
                       to={item.href}
@@ -150,6 +127,54 @@ export default function Nav() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Desktop Nav - Updated to right align */}
+      <div className="hidden md:flex items-center justify-end h-20 px-8 w-full">
+        <div className="flex items-center space-x-8">
+          {navItems.map((item, index) => (
+            <div key={item.name} className="relative">
+              {item.href.startsWith("/") ? (
+                <Link
+                  to={item.href}
+                  className="relative z-10 px-4 py-2 text-white transition-colors duration-200 text-sm"
+                  onMouseEnter={() => setActiveItem(index)}
+                  onMouseLeave={() => setActiveItem(null)}
+                >
+                  <ShinyText text={item.name} speed={3} />
+                </Link>
+              ) : (
+                <a
+                  href={item.href}
+                  className="relative z-10 px-4 py-2 text-white transition-colors duration-200 text-sm"
+                  onMouseEnter={() => setActiveItem(index)}
+                  onMouseLeave={() => setActiveItem(null)}
+                >
+                  <ShinyText text={item.name} speed={3} />
+                </a>
+              )}
+              {activeItem === index && (
+                <motion.div
+                  layoutId="bubble"
+                  className="absolute inset-0 bg-white/10 rounded-full -z-10"
+                  style={{ backdropFilter: "blur(8px)" }}
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+            </div>
+          ))}
+
+          {/* Contact button */}
+          <Link to="/contact">
+            <HoverBorderGradient
+              containerClassName="rounded-full"
+              className="font-semibold text-white px-6 py-2 text-base"
+              as="button"
+            >
+              Contact Us!
+            </HoverBorderGradient>
+          </Link>
+        </div>
+      </div>
     </nav>
   );
 }

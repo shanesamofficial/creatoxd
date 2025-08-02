@@ -62,6 +62,22 @@ nav a.active {
   color: #fff;
 }
 
+/* Add these styles for navbar background transition */
+nav {
+  transition: background-color 0.3s ease;
+}
+
+nav.scrolled {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+/* Only apply background when not in hero section */
+.not-in-hero nav {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+}
+
 ::selection {
   background-color: #ec173700;
 }
@@ -79,6 +95,19 @@ nav a.active {
   }
   .shiny-text {
     font-size: 1rem !important;
+  }
+
+  /* Update mobile nav styles */
+  .mobile-menu-open {
+    overflow: hidden;
+  }
+
+  nav button {
+    z-index: 60; /* Ensure buttons are above overlay */
+  }
+
+  nav .mobile-menu {
+    z-index: 55;
   }
 }
 
