@@ -168,7 +168,7 @@ export default function Nav() {
                   onMouseEnter={() => setActiveItem(index)}
                   onMouseLeave={() => setActiveItem(null)}
                 >
-                  <ShinyText text={item.name} speed={3} />
+                  <ShinyText text={item.name} speed={4} />
                 </Link>
               ) : (
                 <a
@@ -177,7 +177,7 @@ export default function Nav() {
                   onMouseEnter={() => setActiveItem(index)}
                   onMouseLeave={() => setActiveItem(null)}
                 >
-                  <ShinyText text={item.name} speed={3} />
+                  <ShinyText text={item.name} speed={4} />
                 </a>
               )}
               {activeItem === index && (

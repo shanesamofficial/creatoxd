@@ -49,11 +49,11 @@ export default function ServicesSection() {
 			className="w-full min-h-screen py-20 flex flex-col items-center justify-center bg-black"
 		>
 			<h2 
-  className="text-4xl md:text-5xl font-extrabold mb-16 text-center uppercase tracking-wider" 
-  style={{ fontFamily: 'Nasalization' }}
->
-  <ShinyText text="OUR SERVICES" speed={3} />
-</h2>
+				className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-16 text-center uppercase tracking-wider"
+				style={{ fontFamily: 'Nasalization' }}
+			>
+				<ShinyText text="OUR SERVICES" speed={4} />
+			</h2>
 			<FocusCards cards={services} />
 		</section>
 	);
