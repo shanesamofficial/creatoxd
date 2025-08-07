@@ -15,7 +15,7 @@ export function ContactForm() {
 
   return (
     <motion.div
-      className="backdrop-blur-sm bg-white/5 rounded-2xl p-8 md:p-12 border border-white/10"
+      className="backdrop-blur-sm bg-white/5 rounded-2xl p-8 md:p-12 border border-white/10 mx-4 md:mx-0" // Added mx-4 for mobile padding
       whileHover={{
         boxShadow: "0 0 30px rgba(255,255,255,0.1)",
         borderColor: "rgba(255,255,255,0.2)",
@@ -26,7 +26,7 @@ export function ContactForm() {
       transition={{ duration: 0.8 }}
     >
       <div
-        className="mx-auto w-[90%] sm:w-full bg-transparent rounded-xl md:rounded-2xl p-4 sm:p-8 flex flex-col md:flex-row items-center md:items-start"
+        className="mx-auto w-full sm:w-full bg-transparent rounded-xl md:rounded-2xl p-4 sm:p-8 flex flex-col md:flex-row items-center md:items-start" // Changed w-[90%] to w-full
         style={{
           minHeight: "380px",
           maxWidth: "800px",
