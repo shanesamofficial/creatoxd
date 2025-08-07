@@ -175,6 +175,14 @@ function App() {
                               href="#services"
                               className="text-gray-400 hover:text-white transition-colors"
                             >
+                              Web Development
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#services"
+                              className="text-gray-400 hover:text-white transition-colors"
+                            >
                               UI/UX Designing
                             </a>
                           </li>
@@ -183,7 +191,7 @@ function App() {
                               href="#services"
                               className="text-gray-400 hover:text-white transition-colors"
                             >
-                              Photo & Video Editing
+                              Branding
                             </a>
                           </li>
                           <li>
@@ -191,7 +199,15 @@ function App() {
                               href="#services"
                               className="text-gray-400 hover:text-white transition-colors"
                             >
-                              Web Development
+                              Photo Editing
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#services"
+                              className="text-gray-400 hover:text-white transition-colors"
+                            >
+                              Video Editing
                             </a>
                           </li>
                         </ul>

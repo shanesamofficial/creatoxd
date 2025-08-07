@@ -20,26 +20,25 @@ export const Card = React.memo(
       onMouseEnter={() => setHovered(index)}
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "rounded-lg relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-72 md:h-80 w-full transition-all duration-300 ease-out", // Updated height
+        "rounded-lg relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-72 md:h-80 w-full transition-all duration-300 ease-out font-poppins",
         hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
       )}
     >
       <img
         src={card.src}
         alt={card.title}
-        className="object-cover absolute inset-0"
+        className="object-cover w-full h-full absolute inset-0"
       />
-      {/* Modified overlay to always show content */}
       <div
         className={cn(
-          "absolute inset-0 bg-black/50 flex flex-col justify-end py-8 px-4",
-          hovered === index ? "bg-black/60" : "bg-black/50" // Just darken on hover
+          "absolute inset-0 bg-black/50 flex flex-col justify-end py-8 px-4 font-poppins",
+          hovered === index ? "bg-black/60" : "bg-black/50"
         )}
       >
-        <div className="text-xl md:text-2xl font-medium text-white mb-2">
+        <div className="text-xl md:text-2xl font-medium text-white mb-2 font-poppins">
           {card.title}
         </div>
-        <p className="text-sm md:text-base text-gray-200">
+        <p className="text-xs md:text-sm text-gray-200 font-poppins"> {/* Changed text size here */}
           {card.description}
         </p>
       </div>

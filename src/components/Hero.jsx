@@ -141,7 +141,9 @@ const Hero = () => {
               "Graphic Designing",
               "Web Development",
               "UI/UX Designing",
-              "Photo and Video Editing",
+              "Branding",
+              "Photo Editing",
+              "Video Editing",
             ]}
             typingSpeed={40}
             pauseDuration={1000}
