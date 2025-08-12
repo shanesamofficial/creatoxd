@@ -21,14 +21,19 @@ export function ContactForm() {
   };
 
   return (
-    <div className="max-w-md md:max-w-4xl mx-auto w-full p-4 md:p-8 shadow-input bg-white dark:bg-black rounded-2xl border border-white/10">
-      <motion.div
-        initial={{ opacity: 1, scale: 1 }} // Ensure immediate visibility
-        animate={{ opacity: 1, scale: 1 }}
-        className="w-full"
-      >
+    <motion.div
+      className="max-w-md md:max-w-4xl mx-auto w-full p-4 md:p-8 shadow-input backdrop-blur-sm bg-white/5 rounded-2xl border border-white/10"
+      whileHover={{
+        boxShadow: "0 0 30px rgba(255,255,255,0.1)",
+        borderColor: "rgba(255,255,255,0.2)",
+        transition: { duration: 0.3 },
+      }}
+      initial={{ opacity: 1, scale: 1 }}
+      animate={{ opacity: 1, scale: 1 }}
+    >
+      <div className="w-full">
         <div
-          className="mx-auto w-full sm:w-full bg-transparent rounded-xl md:rounded-2xl p-4 sm:p-8 flex flex-col md:flex-row items-center md:items-start" // Changed w-[90%] to w-full
+          className="mx-auto w-full sm:w-full bg-transparent rounded-xl md:rounded-2xl p-4 sm:p-8 flex flex-col md:flex-row items-center md:items-start"
           style={{
             minHeight: "380px",
             maxWidth: "800px",
@@ -52,7 +57,7 @@ export function ContactForm() {
             onSubmit={handleSubmit}
             style={{
               minWidth: "280px",
-              maxWidth: "400px", // Added max-width for desktop form
+              maxWidth: "400px",
             }}
           >
             <LabelInputContainer className="mb-3 sm:mb-4">
@@ -87,8 +92,8 @@ export function ContactForm() {
             </HoverBorderGradient>
           </form>
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </motion.div>
   );
 }
 
