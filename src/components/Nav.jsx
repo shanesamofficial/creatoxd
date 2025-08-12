@@ -29,14 +29,34 @@ export default function Nav() {
     setIsOpen(false);
   };
 
+  const handleServicesClick = (e) => {
+    e.preventDefault();
+    if (location.pathname !== "/") {
+      // Navigate to home first, then scroll to services
+      navigate("/");
+      setTimeout(() => {
+        const servicesSection = document.getElementById("services");
+        if (servicesSection) {
+          servicesSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 300);
+    } else {
+      // Already on home page, just scroll to services
+      const servicesSection = document.getElementById("services");
+      if (servicesSection) {
+        servicesSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+    setIsOpen(false);
+  };
+
   const navItems = [
     { name: "Home", href: "/", onClick: handleHomeClick },
-    { name: "Services", href: "#services" },
+    { name: "Services", href: "#services", onClick: handleServicesClick },
     { name: "Portfolio", href: "#portfolio" },
     { name: "Partners", href: "#partners" },
   ];
 
-  // Updated logo visibility logic
   useEffect(() => {
     if (location.pathname !== "/") {
       setShowLogo(true);
@@ -51,13 +71,11 @@ export default function Nav() {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Hide logo only while ≥70% of hero is visible
-        const heroMostlyVisible =
-          entry.isIntersecting && entry.intersectionRatio >= 0.7;
+        const heroMostlyVisible = entry.isIntersecting && entry.intersectionRatio >= 0.7;
         setShowLogo(!heroMostlyVisible);
       },
       {
-        threshold: Array.from({ length: 11 }, (_, i) => i / 10), // 0,0.1,...1
+        threshold: Array.from({ length: 11 }, (_, i) => i / 10),
         root: null,
         rootMargin: "0px",
       }
@@ -73,7 +91,7 @@ export default function Nav() {
         showLogo ? "bg-black/70 backdrop-blur-md" : ""
       }`}
     >
-      {/* Desktop Logo (hidden in hero) */}
+      {/* Desktop Logo */}
       <AnimatePresence>
         {showLogo && (
           <motion.div
@@ -94,7 +112,7 @@ export default function Nav() {
         )}
       </AnimatePresence>
 
-      {/* Mobile Top Bar (adds logo when showLogo=true) */}
+      {/* Mobile Top Bar */}
       <div className="md:hidden flex items-center justify-between h-16 px-6 relative z-[55]">
         {showLogo ? (
           <button onClick={handleHomeClick} className="cursor-pointer">
@@ -105,7 +123,6 @@ export default function Nav() {
             />
           </button>
         ) : (
-          /* spacer to keep hamburger on right when logo hidden in hero */
           <span className="w-10 h-10" />
         )}
         <button
@@ -140,16 +157,12 @@ export default function Nav() {
             className="fixed inset-0 bg-black/50 backdrop-blur-sm md:hidden z-40"
           >
             <div className="pt-20 h-full overflow-y-auto">
-              <div className="flex flex-col items-center space-y-8 p-8 pb-28 pb-[env(safe-area-inset-bottom)]">
-                {/* Navigation Items */}
+              <div className="flex flex-col items-center space-y-8 p-8 pb-28">
                 {navItems.map((item) => (
                   <div key={item.name} className="w-full text-center">
                     {item.onClick ? (
                       <button
-                        onClick={(e) => {
-                          item.onClick(e);
-                          setIsOpen(false);
-                        }}
+                        onClick={item.onClick}
                         className="text-2xl font-semibold text-white hover:text-gray-300 transition-colors"
                       >
                         {item.name}
@@ -174,7 +187,6 @@ export default function Nav() {
                   </div>
                 ))}
 
-                {/* Contact Button */}
                 <Link
                   to="/contact"
                   onClick={() => setIsOpen(false)}
@@ -195,11 +207,7 @@ export default function Nav() {
       </AnimatePresence>
 
       {/* Desktop Nav */}
-      <div
-        className={`hidden md:flex items-center justify-end h-20 px-8 w-full ${
-          showLogo ? "pr-8" : "pr-8"
-        }`}
-      >
+      <div className="hidden md:flex items-center justify-end h-20 px-8 w-full">
         <div className="flex items-center space-x-8">
           {navItems.map((item, index) => (
             <div key={item.name} className="relative">
