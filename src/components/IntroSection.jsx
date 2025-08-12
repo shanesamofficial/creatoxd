@@ -9,7 +9,7 @@ export default function IntroSection() {
   const [showResume, setShowResume] = useState(false);
   const [pdfLoaded, setPdfLoaded] = useState(false);
 
-  const resumeSrc = "/resume.pdf";
+  const resumeSrc = "/resume.pdf"; // Directly reference the public path
 
   const socialLinks = [
     {
@@ -28,19 +28,6 @@ export default function IntroSection() {
       label: "Instagram",
     },
   ];
-
-  const handleDownload = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Create a temporary link element for download
-    const link = document.createElement("a");
-    link.href = resumeSrc;
-    link.download = "Shane_Sam_Resume.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
 
   return (
     <section className="min-h-screen w-full bg-black">
@@ -160,13 +147,14 @@ export default function IntroSection() {
                   Resume Preview
                 </h3>
                 <div className="flex items-center gap-3">
-                  <button
-                    onClick={handleDownload}
+                  <a
+                    href={resumeSrc}
+                    download="Shane_Sam_Resume.pdf"
                     className="inline-flex items-center gap-2 px-3 py-1.5 text-sm rounded-md bg-white/10 hover:bg-white/20 transition"
                   >
                     <FiDownload />
                     Download
-                  </button>
+                  </a>
                   <button
                     onClick={() => setShowResume(false)}
                     className="p-2 rounded-md hover:bg-white/10 transition"
@@ -184,32 +172,12 @@ export default function IntroSection() {
                     Loading PDF...
                   </div>
                 )}
-                <embed
-                  src={resumeSrc}
-                  type="application/pdf"
-                  width="100%"
-                  height="100%"
-                  onLoad={() => setPdfLoaded(true)}
+                <iframe
+                  title="Resume PDF"
+                  src={`${resumeSrc}#toolbar=0&navpanes=0&scrollbar=0`}
                   className="w-full h-full"
+                  onLoad={() => setPdfLoaded(true)}
                 />
-                {/* Fallback if embed doesn't work */}
-                <div
-                  className="absolute inset-0 flex items-center justify-center text-center p-8"
-                  style={{ display: pdfLoaded ? "none" : "flex" }}
-                >
-                  <div className="text-white/80">
-                    <p className="mb-4 text-lg">
-                      PDF preview not available in this browser
-                    </p>
-                    <button
-                      onClick={handleDownload}
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 rounded-full transition text-white font-medium"
-                    >
-                      <FiDownload />
-                      Download Resume Instead
-                    </button>
-                  </div>
-                </div>
               </div>
             </motion.div>
           </motion.div>
