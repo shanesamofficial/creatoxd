@@ -215,3 +215,15 @@ nav.scrolled {
 .font-poppins {
   font-family: 'Poppins', sans-serif;
 }
+
+/* Add near end for reliable blur & text clarity */
+.backdrop-blur-xl {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* Optional: softer blur utility (used if Tailwind backdrop-blur-sm insufficient) */
+.backdrop-blur-sm {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
