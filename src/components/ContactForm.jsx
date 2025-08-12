@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -7,6 +7,13 @@ import { cn } from "@/lib/utils";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
 
 export function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // You can add your form submission logic here
@@ -15,15 +22,9 @@ export function ContactForm() {
 
   return (
     <motion.div
-      className="backdrop-blur-sm bg-white/5 rounded-2xl p-8 md:p-12 border border-white/10 mx-4 md:mx-0" // Added mx-4 for mobile padding
-      whileHover={{
-        boxShadow: "0 0 30px rgba(255,255,255,0.1)",
-        borderColor: "rgba(255,255,255,0.2)",
-        transition: { duration: 0.3 },
-      }}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
+      initial={{ opacity: 1, scale: 1 }} // Ensure immediate visibility
+      animate={{ opacity: 1, scale: 1 }}
+      className="max-w-2xl mx-auto p-8 bg-white/5 rounded-2xl backdrop-blur-sm border border-white/10"
     >
       <div
         className="mx-auto w-full sm:w-full bg-transparent rounded-xl md:rounded-2xl p-4 sm:p-8 flex flex-col md:flex-row items-center md:items-start" // Changed w-[90%] to w-full

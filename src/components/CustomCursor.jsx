@@ -1,48 +1,47 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 
-export default function CustomCursor() {
-  const cursorRef = useRef(null);
-  const ringRef = useRef(null);
+const CustomCursor = () => {
+  const [isHovering, setIsHovering] = useState(false);
+  const outerRef = useRef(null);
+  const innerRef = useRef(null);
 
   useEffect(() => {
-    // Only initialize cursor on desktop devices
-    if (window.innerWidth > 768) {
-      const cursor = cursorRef.current;
-      const ring = ringRef.current;
-
-      const moveCursor = (e) => {
-        const mouseY = e.clientY;
-        const mouseX = e.clientX;
-
-        cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-        ring.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-      };
-
-      window.addEventListener("mousemove", moveCursor);
-
-      return () => {
-        window.removeEventListener("mousemove", moveCursor);
-      };
-    }
+    const move = (e) => {
+      const x = e.clientX;
+      const y = e.clientY;
+      if (outerRef.current) outerRef.current.style.transform = `translate3d(${x - 16}px, ${y - 16}px,0)`;
+      if (innerRef.current) innerRef.current.style.transform = `translate3d(${x - 4}px, ${y - 4}px,0)`;
+    };
+    const over = (e) => {
+      const interactive = e.target.closest('a,button,[role="button"],input,textarea,select');
+      setIsHovering(!!interactive);
+    };
+    window.addEventListener('mousemove', move, { passive: true });
+    window.addEventListener('mouseover', over, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseover', over);
+    };
   }, []);
 
-  // Don't render cursor on mobile devices
-  if (typeof window !== 'undefined' && window.innerWidth <= 768) {
-    return null;
-  }
-
   return (
-    <>
+    <div className="fixed inset-0 pointer-events-none z-[9999] hidden md:block">
       <div
-        ref={cursorRef}
-        className="fixed top-0 left-0 w-4 h-4 bg-white rounded-full pointer-events-none mix-blend-difference z-50 transition-transform duration-100 ease-out"
-        style={{ transform: "translate3d(0, 0, 0)" }}
+        ref={outerRef}
+        className={`fixed w-8 h-8 rounded-full border-2 border-white will-change-transform ${
+          isHovering ? 'scale-150 opacity-90' : 'scale-100 opacity-70'
+        } transition-[transform,opacity] duration-150 ease-out`}
+        style={{ left: 0, top: 0 }}
       />
       <div
-        ref={ringRef}
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-white pointer-events-none mix-blend-difference z-50 transition-transform duration-300 ease-out"
-        style={{ transform: "translate3d(0, 0, 0)" }}
+        ref={innerRef}
+        className={`fixed w-2 h-2 rounded-full bg-white will-change-transform ${
+          isHovering ? 'scale-125 opacity-90' : 'scale-100 opacity-80'
+        } transition-[transform,opacity] duration-150 ease-out`}
+        style={{ left: 0, top: 0 }}
       />
-    </>
+    </div>
   );
-}
+};
+
+export default CustomCursor;

@@ -1,72 +1,124 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import ShinyText from "./ShinyText";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
-import logoS from "../assets/logo-s.png"; // Add this at the top
+import logoS from "../assets/logo-s.png";
 
 export default function Nav() {
   const [activeItem, setActiveItem] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [isInHero, setIsInHero] = useState(true);
+  const [showLogo, setShowLogo] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleHomeClick = (e) => {
+    e.preventDefault();
+    if (location.pathname !== "/") {
+      navigate("/");
+    }
+    setTimeout(() => {
+      const heroSection = document.getElementById("hero-section");
+      if (heroSection) {
+        heroSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }, location.pathname !== "/" ? 200 : 50);
+    setIsOpen(false);
+  };
 
   const navItems = [
-    { name: "Home", href: "/" },
+    { name: "Home", href: "/", onClick: handleHomeClick },
     { name: "Services", href: "#services" },
     { name: "Portfolio", href: "#portfolio" },
     { name: "Partners", href: "#partners" },
   ];
 
-  // Modify the scroll detection useEffect
+  // Updated logo visibility logic
   useEffect(() => {
-    const handleScroll = () => {
-      const heroSection = document.getElementById("hero-section");
-      if (heroSection) {
-        const rect = heroSection.getBoundingClientRect();
-        // Show logo when hero section is not fully visible at the top
-        setIsInHero(rect.top > -100 && rect.bottom > 0);
-      }
-    };
+    if (location.pathname !== "/") {
+      setShowLogo(true);
+      return;
+    }
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Run once on mount
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const hero = document.getElementById("hero-section");
+    if (!hero) {
+      setShowLogo(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Hide logo only while ≥70% of hero is visible
+        const heroMostlyVisible =
+          entry.isIntersecting && entry.intersectionRatio >= 0.7;
+        setShowLogo(!heroMostlyVisible);
+      },
+      {
+        threshold: Array.from({ length: 11 }, (_, i) => i / 10), // 0,0.1,...1
+        root: null,
+        rootMargin: "0px",
+      }
+    );
+
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, [location.pathname]);
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 ${
-        !isInHero ? "bg-black/50 backdrop-blur-sm" : ""
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        showLogo ? "bg-black/70 backdrop-blur-md" : ""
       }`}
     >
-      {/* Show logo at top-left only when NOT in hero */}
-      {!isInHero && (
-        <motion.div
-          className="hidden md:block absolute top-5 left-8 z-[999]" // Changed fixed to absolute, increased z-index, adjusted top
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <img
-            src={logoS}
-            alt="CreatoXD Logo"
-            className="h-10 w-auto drop-shadow-lg"
-            style={{
-              pointerEvents: "none",
-              userSelect: "none",
-              filter: "drop-shadow(0 0 10px rgba(0,0,0,0.3))", // Added shadow for better visibility
-            }}
-          />
-        </motion.div>
-      )}
+      {/* Logo - Shows when NOT in hero section */}
+      <AnimatePresence>
+        {showLogo && (
+          <motion.div
+            className="hidden md:block absolute top-4 left-8 z-[60]"
+            initial={{ opacity: 0, scale: 0.8, x: -20 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            exit={{ opacity: 0, scale: 0.8, x: -20 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          >
+            <button onClick={handleHomeClick} className="cursor-pointer">
+              <img
+                src={logoS}
+                alt="CreatoXD Logo"
+                className="h-12 w-auto drop-shadow-lg hover:scale-105 transition-transform duration-300"
+              />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Mobile Nav */}
-      <div className="md:hidden flex items-center justify-end h-20 px-8">
-        {/* Hamburger Menu Button */}
+      <div className="md:hidden flex items-center justify-between h-20 px-8">
+        {/* Mobile Logo */}
+        <AnimatePresence>
+          {showLogo && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.3 }}
+            >
+              <button onClick={handleHomeClick} className="cursor-pointer">
+                <img
+                  src={logoS}
+                  alt="CreatoXD Logo"
+                  className="h-10 w-auto drop-shadow-lg"
+                />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-10 h-10 flex flex-col justify-center items-center"
+          className="w-10 h-10 flex flex-col justify-center items-center z-50"
         >
           <motion.div
             animate={isOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
@@ -93,31 +145,19 @@ export default function Nav() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 bg-black/95 backdrop-blur-lg md:hidden pt-20 z-50"
+            className="fixed inset-0 bg-black/95 backdrop-blur-lg md:hidden pt-20 z-40"
           >
-            {/* Close button - positioned absolutely */}
-            <button
-              onClick={() => setIsOpen(false)}
-              className="absolute top-6 right-8 z-50"
-              style={{ color: "white" }}
-            >
-              <motion.div className="w-10 h-10 flex flex-col justify-center items-center">
-                <motion.div
-                  animate={{ rotate: 45 }}
-                  className="w-6 h-0.5 bg-white absolute"
-                />
-                <motion.div
-                  animate={{ rotate: -45 }}
-                  className="w-6 h-0.5 bg-white absolute"
-                />
-              </motion.div>
-            </button>
-
-            {/* Menu content */}
             <div className="flex flex-col items-center space-y-8 p-8">
               {navItems.map((item, index) => (
                 <motion.div key={item.name} className="w-full text-center">
-                  {item.href.startsWith("/") ? (
+                  {item.onClick ? (
+                    <button
+                      onClick={item.onClick}
+                      className="text-2xl font-semibold text-white hover:text-gray-300 transition-colors"
+                    >
+                      {item.name}
+                    </button>
+                  ) : item.href.startsWith("/") ? (
                     <Link
                       to={item.href}
                       className="text-2xl font-semibold text-white hover:text-gray-300 transition-colors"
@@ -156,12 +196,25 @@ export default function Nav() {
         )}
       </AnimatePresence>
 
-      {/* Desktop Nav - Updated to right align */}
-      <div className="hidden md:flex items-center justify-end h-20 px-8 w-full">
+      {/* Desktop Nav */}
+      <div
+        className={`hidden md:flex items-center justify-end h-20 px-8 w-full ${
+          showLogo ? "pr-8" : "pr-8"
+        }`}
+      >
         <div className="flex items-center space-x-8">
           {navItems.map((item, index) => (
             <div key={item.name} className="relative">
-              {item.href.startsWith("/") ? (
+              {item.onClick ? (
+                <button
+                  onClick={item.onClick}
+                  className="relative z-10 px-4 py-2 text-white transition-colors duration-200 text-sm"
+                  onMouseEnter={() => setActiveItem(index)}
+                  onMouseLeave={() => setActiveItem(null)}
+                >
+                  <ShinyText text={item.name} speed={4} />
+                </button>
+              ) : item.href.startsWith("/") ? (
                 <Link
                   to={item.href}
                   className="relative z-10 px-4 py-2 text-white transition-colors duration-200 text-sm"
@@ -191,7 +244,6 @@ export default function Nav() {
             </div>
           ))}
 
-          {/* Contact button */}
           <Link to="/contact">
             <HoverBorderGradient
               containerClassName="rounded-full"

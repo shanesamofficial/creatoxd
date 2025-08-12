@@ -43,18 +43,38 @@ const services = [
 ];
 
 export default function ServicesSection() {
-	return (
-		<section
-			id="services"
-			className="w-full min-h-screen py-20 flex flex-col items-center justify-center bg-black"
-		>
-			<h2 
-				className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-16 text-center uppercase tracking-wider"
-				style={{ fontFamily: 'Nasalization' }}
-			>
-				<ShinyText text="OUR SERVICES" speed={4} />
-			</h2>
-			<FocusCards cards={services} />
-		</section>
-	);
+    return (
+        <section
+            id="services"
+            className="w-full min-h-screen py-20 flex flex-col lg:flex-row items-center justify-center bg-black relative"
+        >
+            {/* Desktop: Vertical title on the left */}
+            <div className="hidden lg:flex lg:flex-col lg:justify-center lg:items-center lg:h-full lg:w-1/6 lg:absolute lg:left-8 lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:z-10">
+                <h2 
+                    className="text-4xl xl:text-5xl font-extrabold uppercase tracking-wide whitespace-nowrap leading-none"
+                    style={{ 
+                        fontFamily: 'Nasalization',
+                        writingMode: 'vertical-rl',
+                        textOrientation: 'upright',
+                        letterSpacing: '0.05em'
+                    }}
+                >
+                    <ShinyText text="OUR SERVICES" speed={4} />
+                </h2>
+            </div>
+
+            {/* Mobile: Horizontal title centered above cards */}
+            <h2 
+                className="lg:hidden text-4xl sm:text-5xl font-extrabold mb-16 text-center uppercase tracking-wider"
+                style={{ fontFamily: 'Nasalization' }}
+            >
+                <ShinyText text="OUR SERVICES" speed={4} />
+            </h2>
+
+            {/* Cards container with left margin for desktop to account for vertical title */}
+            <div className="lg:ml-32 xl:ml-40 w-full lg:w-5/6">
+                <FocusCards cards={services} />
+            </div>
+        </section>
+    );
 }

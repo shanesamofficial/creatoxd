@@ -43,6 +43,7 @@ function App() {
               <motion.div className="snap-container">
                 {/* Hero Section */}
                 <motion.section
+                  id="hero-section"
                   className="min-h-screen relative"
                   initial={{ scale: 0.95, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}

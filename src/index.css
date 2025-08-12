@@ -32,6 +32,20 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Hide scrollbars for IE, Edge, Firefox, and Chrome */
+html, body, .snap-container {
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;    /* Firefox */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.snap-container::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
 section {
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -169,6 +183,18 @@ nav.scrolled {
   }
   100% {
     background-position: -200% 0;
+  }
+}
+
+@keyframes shineVertical {
+  0% {
+    background-position: 0 -200%;
+  }
+  50% {
+    background-position: 0 0%;
+  }
+  100% {
+    background-position: 0 200%;
   }
 }
 
