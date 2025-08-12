@@ -73,7 +73,7 @@ export default function Nav() {
         showLogo ? "bg-black/70 backdrop-blur-md" : ""
       }`}
     >
-      {/* Logo - Shows when NOT in hero section */}
+      {/* Desktop Logo (hidden in hero) */}
       <AnimatePresence>
         {showLogo && (
           <motion.div
@@ -94,43 +94,35 @@ export default function Nav() {
         )}
       </AnimatePresence>
 
-      {/* Mobile Nav */}
-      <div className="md:hidden flex items-center justify-between h-20 px-8">
-        {/* Mobile Logo */}
-        <AnimatePresence>
-          {showLogo && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.3 }}
-            >
-              <button onClick={handleHomeClick} className="cursor-pointer">
-                <img
-                  src={logoS}
-                  alt="CreatoXD Logo"
-                  className="h-10 w-auto drop-shadow-lg"
-                />
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
+      {/* Mobile Top Bar (adds logo when showLogo=true) */}
+      <div className="md:hidden flex items-center justify-between h-16 px-6 relative z-[55]">
+        {showLogo ? (
+          <button onClick={handleHomeClick} className="cursor-pointer">
+            <img
+              src={logoS}
+              alt="CreatoXD Logo"
+              className="h-10 w-auto drop-shadow-lg transition-transform"
+            />
+          </button>
+        ) : (
+          /* spacer to keep hamburger on right when logo hidden in hero */
+          <span className="w-10 h-10" />
+        )}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-10 h-10 flex flex-col justify-center items-center z-50"
+          className="w-10 h-10 flex flex-col justify-center items-center z-[60]"
         >
-          <motion.div
+          <motion.span
             animate={isOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
             className="w-6 h-0.5 bg-white mb-2"
             transition={{ duration: 0.2 }}
           />
-          <motion.div
+          <motion.span
             animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
             className="w-6 h-0.5 bg-white mb-2"
             transition={{ duration: 0.2 }}
           />
-          <motion.div
+          <motion.span
             animate={isOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
             className="w-6 h-0.5 bg-white"
             transition={{ duration: 0.2 }}
@@ -138,59 +130,65 @@ export default function Nav() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 bg-black/95 backdrop-blur-lg md:hidden pt-20 z-40"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm md:hidden z-40"
           >
-            <div className="flex flex-col items-center space-y-8 p-8">
-              {navItems.map((item, index) => (
-                <motion.div key={item.name} className="w-full text-center">
-                  {item.onClick ? (
-                    <button
-                      onClick={item.onClick}
-                      className="text-2xl font-semibold text-white hover:text-gray-300 transition-colors"
-                    >
-                      {item.name}
-                    </button>
-                  ) : item.href.startsWith("/") ? (
-                    <Link
-                      to={item.href}
-                      className="text-2xl font-semibold text-white hover:text-gray-300 transition-colors"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  ) : (
-                    <a
-                      href={item.href}
-                      className="text-2xl font-semibold text-white hover:text-gray-300 transition-colors"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.name}
-                    </a>
-                  )}
-                </motion.div>
-              ))}
-              <motion.div className="w-full text-center">
+            <div className="pt-20 h-full overflow-y-auto">
+              <div className="flex flex-col items-center space-y-8 p-8 pb-28 pb-[env(safe-area-inset-bottom)]">
+                {/* Navigation Items */}
+                {navItems.map((item) => (
+                  <div key={item.name} className="w-full text-center">
+                    {item.onClick ? (
+                      <button
+                        onClick={(e) => {
+                          item.onClick(e);
+                          setIsOpen(false);
+                        }}
+                        className="text-2xl font-semibold text-white hover:text-gray-300 transition-colors"
+                      >
+                        {item.name}
+                      </button>
+                    ) : item.href.startsWith("/") ? (
+                      <Link
+                        to={item.href}
+                        onClick={() => setIsOpen(false)}
+                        className="text-2xl font-semibold text-white hover:text-gray-300 transition-colors"
+                      >
+                        {item.name}
+                      </Link>
+                    ) : (
+                      <a
+                        href={item.href}
+                        onClick={() => setIsOpen(false)}
+                        className="text-2xl font-semibold text-white hover:text-gray-300 transition-colors"
+                      >
+                        {item.name}
+                      </a>
+                    )}
+                  </div>
+                ))}
+
+                {/* Contact Button */}
                 <Link
                   to="/contact"
-                  className="inline-block"
                   onClick={() => setIsOpen(false)}
+                  className="w-full flex justify-center"
                 >
                   <HoverBorderGradient
-                    containerClassName="rounded-full w-full"
+                    containerClassName="rounded-full w-full max-w-xs"
                     className="font-semibold text-white px-8 py-3 text-xl"
                     as="button"
                   >
                     Contact Us!
                   </HoverBorderGradient>
                 </Link>
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         )}

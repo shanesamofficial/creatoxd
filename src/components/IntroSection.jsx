@@ -1,10 +1,14 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import meImage from "../assets/me.png";
 import ShinyText from "./ShinyText";
 import { FaLinkedin, FaBehance, FaInstagram } from "react-icons/fa";
+import { FiArrowUpRight, FiX, FiDownload } from "react-icons/fi";
+import resumePDF from "../assets/resume.pdf"; // updated import
 
 export default function IntroSection() {
+  const [showResume, setShowResume] = useState(false);
+
   const socialLinks = [
     {
       icon: FaLinkedin,
@@ -77,22 +81,22 @@ export default function IntroSection() {
                 transition={{ duration: 0.8 }}
                 className="space-y-4 md:space-y-6"
               >
-                {/* Title moved here and left aligned */}
                 <h2
-                  className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 text-left uppercase tracking-wider"
+                  className="w-full text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 text-center md:text-left uppercase tracking-wider"
                   style={{ fontFamily: "Nasalization" }}
                 >
-                  <ShinyText text="ABOUT US" speed={4} /> {/* Increased from 3 to 4 */}
+                  <ShinyText text="ABOUT US" speed={4} />
                 </h2>
                 <div className="space-y-4 text-base sm:text-lg md:text-xl text-neutral-600 dark:text-neutral-300">
-                  <p className="text-left">
+                  <p
+                    className="text-justify md:text-justify leading-relaxed md:leading-loose max-w-prose mx-auto md:mx-0"
+                  >
                     Shane Sam, the creative force behind CreatoXD, is a passionate
                     designer, developer, and storyteller. With a background in
                     Computer Science and years of hands-on experience in graphic
                     design, photo and video editing, and web development.
                   </p>
                 </div>
-
                 {/* Social Links */}
                 <div className="flex items-center justify-center md:justify-start space-x-4">
                   {socialLinks.map((social) => (
@@ -109,14 +113,15 @@ export default function IntroSection() {
                     </motion.a>
                   ))}
                 </div>
-
                 <div className="flex justify-center md:justify-start mt-4 md:mt-20">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="px-8 py-3 bg-transparent border-2 border-white text-white rounded-full font-semibold hover:bg-white/10 transition-all duration-300"
+                    onClick={() => setShowResume(true)}
+                    className="group px-8 py-3 bg-transparent border-2 border-white text-white rounded-full font-semibold hover:bg-white/10 transition-all duration-300 flex items-center gap-2"
                   >
-                    View My Work
+                    <span>View Resume</span>
+                    <FiArrowUpRight className="text-lg transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
                   </motion.button>
                 </div>
               </motion.div>
@@ -124,6 +129,80 @@ export default function IntroSection() {
           </motion.div>
         </div>
       </div>
+
+      {/* Resume Modal */}
+      <AnimatePresence>
+        {showResume && (
+          <motion.div
+            className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowResume(false)}
+          >
+            <motion.div
+              className="relative w-full max-w-5xl h-[80vh] bg-neutral-900/90 border border-white/10 rounded-2xl overflow-hidden flex flex-col"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 120, damping: 18 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+                <h3 className="text-lg font-semibold tracking-wide">
+                  Resume Preview
+                </h3>
+                <div className="flex items-center gap-3">
+                  <a
+                    href={resumePDF}
+                    download="Shane_Sam_Resume.pdf"
+                    className="inline-flex items-center gap-2 px-3 py-1.5 text-sm rounded-md bg-white/10 hover:bg-white/20 transition"
+                  >
+                    <FiDownload />
+                    Download
+                  </a>
+                  <button
+                    onClick={() => setShowResume(false)}
+                    className="p-2 rounded-md hover:bg-white/10 transition"
+                    aria-label="Close"
+                  >
+                    <FiX className="text-xl" />
+                  </button>
+                </div>
+              </div>
+
+              {/* PDF Viewer */}
+              <div className="flex-1 bg-black/40">
+                <object
+                  data={resumePDF + "#toolbar=0&navpanes=0&scrollbar=0"}
+                  type="application/pdf"
+                  className="w-full h-full"
+                >
+                  <iframe
+                    title="Resume PDF"
+                    src={resumePDF}
+                    className="w-full h-full"
+                  />
+                  <div className="p-6 text-center">
+                    <p className="mb-4">
+                      PDF preview not supported in this browser.
+                    </p>
+                    <a
+                      href={resumePDF}
+                      download="Shane_Sam_Resume.pdf"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-neutral-200 transition"
+                    >
+                      <FiDownload />
+                      Download Resume
+                    </a>
+                  </div>
+                </object>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
