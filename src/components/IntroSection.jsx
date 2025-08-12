@@ -4,10 +4,12 @@ import meImage from "../assets/me.png";
 import ShinyText from "./ShinyText";
 import { FaLinkedin, FaBehance, FaInstagram } from "react-icons/fa";
 import { FiArrowUpRight, FiX, FiDownload } from "react-icons/fi";
-import resumePDF from "../assets/resume.pdf"; // updated import
 
 export default function IntroSection() {
   const [showResume, setShowResume] = useState(false);
+  const [pdfLoaded, setPdfLoaded] = useState(false);
+
+  const resumeSrc = "/resume.pdf";
 
   const socialLinks = [
     {
@@ -27,26 +29,30 @@ export default function IntroSection() {
     },
   ];
 
+  const handleDownload = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Create a temporary link element for download
+    const link = document.createElement("a");
+    link.href = resumeSrc;
+    link.download = "Shane_Sam_Resume.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <section className="min-h-screen w-full bg-black">
-      <div
-        className="w-full min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12"
-        style={{
-          background: "linear-gradient(135deg, #000000 0%, #1a1a1a 100%)",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        {/* Gradient overlay */}
+      <div className="w-full min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative overflow-hidden">
         <div
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(circle at 50% 50%, rgba(50, 50, 50, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%)",
+              "radial-gradient(circle at 50% 50%, rgba(50,50,50,0.2) 0%, rgba(0,0,0,0.5) 100%)",
             mixBlendMode: "overlay",
           }}
         />
-
         <div className="max-w-7xl mx-auto w-full relative z-10">
           <motion.div
             className="backdrop-blur-sm bg-white/5 rounded-2xl p-8 md:p-12 border border-white/10"
@@ -60,7 +66,7 @@ export default function IntroSection() {
             transition={{ duration: 0.8 }}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-start md:items-center">
-              {/* Left side - Image */}
+              {/* Left Image */}
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -74,7 +80,7 @@ export default function IntroSection() {
                 />
               </motion.div>
 
-              {/* Right side - Content */}
+              {/* Right Content */}
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -88,16 +94,13 @@ export default function IntroSection() {
                   <ShinyText text="ABOUT US" speed={4} />
                 </h2>
                 <div className="space-y-4 text-base sm:text-lg md:text-xl text-neutral-600 dark:text-neutral-300">
-                  <p
-                    className="text-justify md:text-justify leading-relaxed md:leading-loose max-w-prose mx-auto md:mx-0"
-                  >
+                  <p className="text-justify md:text-justify leading-relaxed md:leading-loose max-w-prose mx-auto md:mx-0">
                     Shane Sam, the creative force behind CreatoXD, is a passionate
                     designer, developer, and storyteller. With a background in
                     Computer Science and years of hands-on experience in graphic
                     design, photo and video editing, and web development.
                   </p>
                 </div>
-                {/* Social Links */}
                 <div className="flex items-center justify-center md:justify-start space-x-4">
                   {socialLinks.map((social) => (
                     <motion.a
@@ -117,7 +120,10 @@ export default function IntroSection() {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => setShowResume(true)}
+                    onClick={() => {
+                      setPdfLoaded(false);
+                      setShowResume(true);
+                    }}
                     className="group px-8 py-3 bg-transparent border-2 border-white text-white rounded-full font-semibold hover:bg-white/10 transition-all duration-300 flex items-center gap-2"
                   >
                     <span>View Resume</span>
@@ -154,14 +160,13 @@ export default function IntroSection() {
                   Resume Preview
                 </h3>
                 <div className="flex items-center gap-3">
-                  <a
-                    href={resumePDF}
-                    download="Shane_Sam_Resume.pdf"
+                  <button
+                    onClick={handleDownload}
                     className="inline-flex items-center gap-2 px-3 py-1.5 text-sm rounded-md bg-white/10 hover:bg-white/20 transition"
                   >
                     <FiDownload />
                     Download
-                  </a>
+                  </button>
                   <button
                     onClick={() => setShowResume(false)}
                     className="p-2 rounded-md hover:bg-white/10 transition"
@@ -173,31 +178,38 @@ export default function IntroSection() {
               </div>
 
               {/* PDF Viewer */}
-              <div className="flex-1 bg-black/40">
-                <object
-                  data={resumePDF + "#toolbar=0&navpanes=0&scrollbar=0"}
+              <div className="flex-1 bg-black/40 relative">
+                {!pdfLoaded && (
+                  <div className="absolute inset-0 flex items-center justify-center text-sm text-white/60">
+                    Loading PDF...
+                  </div>
+                )}
+                <embed
+                  src={resumeSrc}
                   type="application/pdf"
+                  width="100%"
+                  height="100%"
+                  onLoad={() => setPdfLoaded(true)}
                   className="w-full h-full"
+                />
+                {/* Fallback if embed doesn't work */}
+                <div
+                  className="absolute inset-0 flex items-center justify-center text-center p-8"
+                  style={{ display: pdfLoaded ? "none" : "flex" }}
                 >
-                  <iframe
-                    title="Resume PDF"
-                    src={resumePDF}
-                    className="w-full h-full"
-                  />
-                  <div className="p-6 text-center">
-                    <p className="mb-4">
-                      PDF preview not supported in this browser.
+                  <div className="text-white/80">
+                    <p className="mb-4 text-lg">
+                      PDF preview not available in this browser
                     </p>
-                    <a
-                      href={resumePDF}
-                      download="Shane_Sam_Resume.pdf"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-neutral-200 transition"
+                    <button
+                      onClick={handleDownload}
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 rounded-full transition text-white font-medium"
                     >
                       <FiDownload />
-                      Download Resume
-                    </a>
+                      Download Resume Instead
+                    </button>
                   </div>
-                </object>
+                </div>
               </div>
             </motion.div>
           </motion.div>
