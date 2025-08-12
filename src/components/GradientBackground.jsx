@@ -17,7 +17,11 @@ const GradientBackground = () => {
     };
   }, []);
 
-  return <div className="gradient-background" />;
+  return (
+    <div className="absolute inset-0 z-0 pointer-events-none">
+      <div className="gradient-background" />
+    </div>
+  );
 };
 
 export default GradientBackground;

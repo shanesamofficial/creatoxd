@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { HashLoader } from "react-spinners";
 import { FaLinkedin, FaInstagram, FaTwitter } from "react-icons/fa";
@@ -15,6 +15,7 @@ import logo from "./assets/logo-s.png";
 
 function App() {
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -22,6 +23,16 @@ function App() {
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      const id = location.state.scrollTo;
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 150);
+    }
+  }, [location]);
 
   if (loading) {
     return (
