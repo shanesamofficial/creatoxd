@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');  /* MOVED TO TOP (must precede other rules) */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -210,8 +212,7 @@ nav.scrolled {
   font-style: normal;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
+/* Font helper */
 .font-poppins {
   font-family: 'Poppins', sans-serif;
 }
