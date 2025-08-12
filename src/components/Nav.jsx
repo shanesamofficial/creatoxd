@@ -77,8 +77,9 @@ export default function Nav() {
 
   return (
     <>
+      {/* Raise nav above mobile menu overlay so the original hamburger/X stays visible */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-[150] transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-[950] transition-all duration-300 ${
           showLogo ? "bg-black/70 backdrop-blur-md" : ""
         }`}
       >
@@ -98,36 +99,36 @@ export default function Nav() {
           )}
         </AnimatePresence>
 
-        {/* Mobile Top Bar */}
-        <div className="md:hidden flex items-center justify-between h-16 px-6 relative z-[160]">
-            {showLogo ? (
-              <button onClick={handleHomeClick}>
-                <img src={logoS} alt="CreatoXD Logo" className="h-10 w-auto" />
-              </button>
-            ) : (
-              <span className="w-10 h-10" />
-            )}
-            <button
-              onClick={() => setIsOpen(o => !o)}
-              aria-label="Menu"
-              className="w-10 h-10 flex flex-col justify-center items-center"
-            >
-              <motion.span
-                animate={isOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-                className="w-6 h-0.5 bg-white mb-2"
-                transition={{ duration: 0.2 }}
-              />
-              <motion.span
-                animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
-                className="w-6 h-0.5 bg-white mb-2"
-                transition={{ duration: 0.2 }}
-              />
-              <motion.span
-                animate={isOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-                className="w-6 h-0.5 bg-white"
-                transition={{ duration: 0.2 }}
-              />
+        {/* Mobile Top Bar (unchanged button now stays above overlay) */}
+        <div className="md:hidden flex items-center justify-between h-16 px-6 relative z-[960]">
+          {showLogo ? (
+            <button onClick={handleHomeClick}>
+              <img src={logoS} alt="CreatoXD Logo" className="h-10 w-auto" />
             </button>
+          ) : (
+            <span className="w-10 h-10" />
+          )}
+          <button
+            onClick={() => setIsOpen(o => !o)}
+            aria-label="Menu"
+            className="w-10 h-10 flex flex-col justify-center items-center"
+          >
+            <motion.span
+              animate={isOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+              className="w-6 h-0.5 bg-white mb-2"
+              transition={{ duration: 0.2 }}
+            />
+            <motion.span
+              animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
+              className="w-6 h-0.5 bg-white mb-2"
+              transition={{ duration: 0.2 }}
+            />
+            <motion.span
+              animate={isOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+              className="w-6 h-0.5 bg-white"
+              transition={{ duration: 0.2 }}
+            />
+          </button>
         </div>
 
         {/* Desktop Nav */}
@@ -177,7 +178,7 @@ export default function Nav() {
         </div>
       </nav>
 
-      {/* Mobile Menu Portal (outside nav stacking context) */}
+      {/* Mobile Menu Portal (lower z so nav/hamburger is above it) */}
       {isOpen &&
         createPortal(
           <AnimatePresence>
@@ -186,24 +187,14 @@ export default function Nav() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[9999] md:hidden"
+              className="fixed inset-0 z-[900] md:hidden"
             >
+              {/* 50% black + soft blur background */}
               <div
                 className="absolute inset-0 bg-black/50 backdrop-blur-sm"
                 onClick={() => setIsOpen(false)}
               />
               <div className="relative h-full flex flex-col items-center justify-center gap-8 px-8 font-poppins">
-                <button
-                  onClick={() => setIsOpen(false)}
-                  aria-label="Close menu"
-                  className="absolute top-5 right-6 w-11 h-11 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition"
-                >
-                  <span className="block w-6 h-6 relative">
-                    <span className="absolute inset-0 w-6 h-0.5 bg-white rotate-45 top-1/2 -translate-y-1/2"></span>
-                    <span className="absolute inset-0 w-6 h-0.5 bg-white -rotate-45 top-1/2 -translate-y-1/2"></span>
-                  </span>
-                </button>
-
                 {navItems.map(item => {
                   const Icon = item.icon;
                   const common =
