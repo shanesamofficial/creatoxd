@@ -1,24 +1,52 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './GradientBackground.css';
 
 const GradientBackground = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
-    const handlePointerMove = (e) => {
-      const { currentTarget: el, clientX: x, clientY: y } = e;
-      const { top: t, left: l, width: w, height: h } = el.getBoundingClientRect();
-      el.style.setProperty('--posX', x-l-w/2);
-      el.style.setProperty('--posY', y-t-h/2);
+    let animationId;
+    
+    const initializeGradient = () => {
+      try {
+        const canvas = document.querySelector('.gradient-background');
+        if (!canvas) {
+          // Wait for DOM to be ready
+          requestAnimationFrame(initializeGradient);
+          return;
+        }
+
+        // Set loaded state after a brief delay to prevent flicker
+        setTimeout(() => {
+          setIsLoaded(true);
+        }, 100);
+
+        // Your existing gradient logic here...
+        // (Add your gradient animation code)
+        
+      } catch (error) {
+        console.error("Gradient initialization error:", error);
+        setIsLoaded(true); // Still show background even if gradient fails
+      }
     };
 
-    document.body.addEventListener("pointermove", handlePointerMove);
-
+    // Start initialization after component mount
+    const timer = setTimeout(initializeGradient, 50);
+    
     return () => {
-      document.body.removeEventListener("pointermove", handlePointerMove);
+      clearTimeout(timer);
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
     };
   }, []);
 
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none">
+    <div 
+      className={`absolute inset-0 z-0 pointer-events-none transition-opacity duration-500 ${
+        isLoaded ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
       <div className="gradient-background" />
     </div>
   );

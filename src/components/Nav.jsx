@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { createPortal } from "react-dom";
+import { FiHome, FiGrid, FiBriefcase, FiUsers, FiMail } from "react-icons/fi";
 import ShinyText from "./ShinyText";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
 import logoS from "../assets/logo-s.png";
-import { FiHome, FiGrid, FiBriefcase, FiUsers, FiMail } from "react-icons/fi";
 
 export default function Nav() {
   const [activeItem, setActiveItem] = useState(null);
@@ -37,11 +37,22 @@ export default function Nav() {
     goHomeAndScroll("services");
   };
 
+  const handlePortfolioClick = (e) => {
+    e.preventDefault();
+    goHomeAndScroll("portfolio");
+  };
+
+  const handlePartnersClick = (e) => {
+    e.preventDefault();
+    navigate("/partners");
+    setIsOpen(false);
+  };
+
   const navItems = [
     { name: "Home", onClick: handleHomeClick, icon: FiHome },
     { name: "Services", onClick: handleServicesClick, icon: FiGrid },
-    { name: "Portfolio", href: "#portfolio", icon: FiBriefcase },
-    { name: "Partners", href: "#partners", icon: FiUsers },
+    { name: "Portfolio", onClick: handlePortfolioClick, icon: FiBriefcase },
+    { name: "Partners", onClick: handlePartnersClick, icon: FiUsers },
   ];
 
   useEffect(() => {
@@ -65,19 +76,14 @@ export default function Nav() {
     return () => observer.disconnect();
   }, [location.pathname]);
 
-  // Effect to lock scroll
   useEffect(() => {
-    if (isOpen) {
-      document.body.classList.add("nav-open");
-    } else {
-      document.body.classList.remove("nav-open");
-    }
+    if (isOpen) document.body.classList.add("nav-open");
+    else document.body.classList.remove("nav-open");
     return () => document.body.classList.remove("nav-open");
   }, [isOpen]);
 
   return (
     <>
-      {/* Raise nav above mobile menu overlay so the original hamburger/X stays visible */}
       <nav
         className={`fixed top-0 left-0 right-0 z-[950] transition-all duration-300 ${
           showLogo ? "bg-black/70 backdrop-blur-md" : ""
@@ -87,7 +93,7 @@ export default function Nav() {
         <AnimatePresence>
           {showLogo && (
             <motion.div
-              className="hidden md:block absolute top-4 left-8 z-[160]"
+              className="hidden md:block absolute top-4 left-8 z-[960]"
               initial={{ opacity: 0, scale: 0.8, x: -20 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               exit={{ opacity: 0, scale: 0.8, x: -20 }}
@@ -99,7 +105,7 @@ export default function Nav() {
           )}
         </AnimatePresence>
 
-        {/* Mobile Top Bar (unchanged button now stays above overlay) */}
+        {/* Mobile Top Bar */}
         <div className="md:hidden flex items-center justify-between h-16 px-6 relative z-[960]">
           {showLogo ? (
             <button onClick={handleHomeClick}>
@@ -136,25 +142,14 @@ export default function Nav() {
           <div className="flex items-center space-x-8">
             {navItems.map((item, i) => (
               <div key={item.name} className="relative">
-                {item.onClick ? (
-                  <button
-                    onClick={item.onClick}
-                    onMouseEnter={() => setActiveItem(i)}
-                    onMouseLeave={() => setActiveItem(null)}
-                    className="relative z-10 px-4 py-2 text-white text-sm"
-                  >
-                    <ShinyText text={item.name} speed={4} />
-                  </button>
-                ) : (
-                  <a
-                    href={item.href}
-                    onMouseEnter={() => setActiveItem(i)}
-                    onMouseLeave={() => setActiveItem(null)}
-                    className="relative z-10 px-4 py-2 text-white text-sm"
-                  >
-                    <ShinyText text={item.name} speed={4} />
-                  </a>
-                )}
+                <button
+                  onClick={item.onClick}
+                  onMouseEnter={() => setActiveItem(i)}
+                  onMouseLeave={() => setActiveItem(null)}
+                  className="relative z-10 px-4 py-2 text-white text-sm"
+                >
+                  <ShinyText text={item.name} speed={4} />
+                </button>
                 {activeItem === i && (
                   <motion.div
                     layoutId="bubble"
@@ -178,7 +173,7 @@ export default function Nav() {
         </div>
       </nav>
 
-      {/* Mobile Menu Portal (lower z so nav/hamburger is above it) */}
+      {/* Mobile Menu Portal */}
       {isOpen &&
         createPortal(
           <AnimatePresence>
@@ -189,7 +184,6 @@ export default function Nav() {
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-[900] md:hidden"
             >
-              {/* 50% black + soft blur background */}
               <div
                 className="absolute inset-0 bg-black/50 backdrop-blur-sm"
                 onClick={() => setIsOpen(false)}
@@ -201,21 +195,10 @@ export default function Nav() {
                     "flex items-center gap-4 text-2xl font-semibold tracking-wide text-white hover:text-gray-300 transition-colors";
                   return (
                     <div key={item.name}>
-                      {item.onClick ? (
-                        <button onClick={item.onClick} className={common}>
-                          <Icon className="text-[1.6rem] opacity-90" />
-                          <span>{item.name}</span>
-                        </button>
-                      ) : (
-                        <a
-                          href={item.href}
-                          onClick={() => setIsOpen(false)}
-                          className={common}
-                        >
-                          <Icon className="text-[1.6rem] opacity-90" />
-                          <span>{item.name}</span>
-                        </a>
-                      )}
+                      <button onClick={item.onClick} className={common}>
+                        <Icon className="text-[1.6rem] opacity-90" />
+                        <span>{item.name}</span>
+                      </button>
                     </div>
                   );
                 })}

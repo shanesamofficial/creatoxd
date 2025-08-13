@@ -5,11 +5,9 @@ import Nav from "../components/Nav";
 import CustomCursor from "../components/CustomCursor";
 import GradientBackground from "../components/GradientBackground";
 
-const ContactPage = () => {
+export default function ContactPage() {
   useEffect(() => {
-    // Force a re-render after component mounts
     const timer = setTimeout(() => {
-      // Trigger any necessary updates
       window.dispatchEvent(new Event("resize"));
     }, 100);
 
@@ -17,11 +15,12 @@ const ContactPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black relative">
       <CustomCursor />
-      <Nav />
       <GradientBackground />
-      <div className="min-h-screen flex items-center justify-center pt-20">
+      <Nav />
+
+      <div className="min-h-screen flex items-center justify-center pt-20 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -33,6 +32,4 @@ const ContactPage = () => {
       </div>
     </div>
   );
-};
-
-export default ContactPage;
+}
