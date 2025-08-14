@@ -239,6 +239,11 @@ nav.scrolled {
   font-style: normal;
 }
 
+/* Title font utility */
+.font-nasalization {
+  font-family: 'Nasalization', sans-serif;
+}
+
 .font-poppins {
   font-family: 'Poppins', sans-serif;
 }

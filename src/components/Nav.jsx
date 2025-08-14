@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { createPortal } from "react-dom";
-import { FiHome, FiGrid, FiBriefcase, FiUsers, FiMail } from "react-icons/fi";
+import { FiHome, FiGrid, FiBriefcase, FiUsers, FiMail, FiInfo } from "react-icons/fi";
 import ShinyText from "./ShinyText";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
 import logoS from "../assets/logo-s.png";
@@ -48,10 +48,17 @@ export default function Nav() {
     setIsOpen(false);
   };
 
+  const handleAboutClick = (e) => {
+    e.preventDefault();
+    navigate("/about");
+    setIsOpen(false);
+  };
+
   const navItems = [
     { name: "Home", onClick: handleHomeClick, icon: FiHome },
     { name: "Services", onClick: handleServicesClick, icon: FiGrid },
     { name: "Portfolio", onClick: handlePortfolioClick, icon: FiBriefcase },
+    { name: "About", onClick: handleAboutClick, icon: FiInfo },
     { name: "Partners", onClick: handlePartnersClick, icon: FiUsers },
   ];
 

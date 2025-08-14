@@ -10,9 +10,11 @@ import CustomCursor from "./components/CustomCursor";
 import ContactForm from "./components/ContactForm";
 import ContactPage from "./pages/Contact";
 import ServicesSection from "./components/ServicesSection";
+import FeaturesSection from "./components/FeaturesSection";
 import GradientBackground from "./components/GradientBackground";
 import logo from "./assets/logo-s.png";
 import PartnersPage from './pages/Partners';
+import AboutPage from "./pages/About";
 
 function AppContent() {
   const [loading, setLoading] = useState(true);
@@ -109,7 +111,18 @@ function AppContent() {
                     <ServicesSection />
                   </motion.section>
 
-                  {/* Intro Section */}
+                  {/* Features Section - above About */}
+                  <motion.section
+                    className="relative bg-black" // ensure no min-h-screen here
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 24 }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <FeaturesSection />
+                  </motion.section>
+
+                  {/* Intro Section (About) */}
                   <motion.section
                     id="portfolio"
                     className="min-h-screen relative bg-black"
@@ -199,6 +212,14 @@ function AppContent() {
                                 className="text-gray-400 hover:text-white transition-colors"
                               >
                                 Contact
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                href="/about"
+                                className="text-gray-400 hover:text-white transition-colors"
+                              >
+                                About
                               </a>
                             </li>
                           </ul>
@@ -321,8 +342,9 @@ function AppContent() {
             </div>
           }
         />
-        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/partners" element={<PartnersPage />} />
+        <Route path="/contact" element={<ContactPage />} />
       </Routes>
     </div>
   );

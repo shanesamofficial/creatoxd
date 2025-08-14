@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import Nav from '../components/Nav';
 import CustomCursor from '../components/CustomCursor';
 import GradientBackground from '../components/GradientBackground';
+import BlurText from "../components/BlurText";
 
 const partners = [
   {
@@ -115,13 +116,14 @@ export default function PartnersPage() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h1 
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 text-white uppercase tracking-wider"
-              style={{ fontFamily: "Nasalization" }}
-            >
-              Our Partners
-            </h1>
-            <p className="text-lg sm:text-xl text-neutral-300 max-w-3xl mx-auto leading-relaxed">
+            <BlurText
+              text="Our Partners"
+              animateBy="words"
+              delay={120}
+              direction="top"
+              className="font-nasalization w-full justify-center text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white uppercase tracking-wider"
+            />
+            <p className="mt-4 text-lg sm:text-xl text-neutral-300 max-w-3xl mx-auto leading-relaxed">
               We collaborate with industry-leading companies to deliver exceptional results. 
               Meet our trusted partners who help us bring your vision to life.
             </p>
