@@ -19,14 +19,14 @@ export default function AboutPage() {
       <GradientBackground />
       <Nav />
 
-      <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="max-w-7xl mx-auto">
+      <div className="pt-20 pb-12 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-6xl mx-auto">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            className="text-center mb-4 md:mb-6"
           >
             <BlurText
               text="About Us"
@@ -35,21 +35,15 @@ export default function AboutPage() {
               direction="top"
               className="font-nasalization w-full justify-center text-center text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-wider uppercase"
             />
-            <p className="mt-4 text-neutral-300 max-w-3xl mx-auto">
+            <p className="mt-2 text-neutral-300 max-w-3xl mx-auto">
               Learn more about who we are, what we do, and how we deliver.
             </p>
           </motion.div>
 
-          {/* About (reusing your landing IntroSection) */}
-          <motion.section
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-16"
-          >
-            <IntroSection />
-          </motion.section>
+          {/* Founder Card */}
+          <div className="mb-8 max-w-4xl mx-auto">
+            <IntroSection compact />
+          </div>
 
           {/* Contact Info */}
           <motion.section
@@ -59,11 +53,11 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="mb-8"
           >
-            <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-6">
               Contact Information
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
               <div className="backdrop-blur-sm bg-white/5 rounded-2xl p-6 border border-white/10">
                 <div className="flex items-center gap-3 mb-3 text-white">
                   <FiMail className="w-5 h-5 opacity-80" />
@@ -94,7 +88,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="text-center mt-10">
+            <div className="text-center mt-8">
               <a
                 href="/contact"
                 className="inline-flex items-center gap-2 px-8 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-full transition-all duration-300"

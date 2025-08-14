@@ -5,7 +5,6 @@ import { HashLoader } from "react-spinners";
 import { FaLinkedin, FaInstagram, FaTwitter } from "react-icons/fa";
 import Hero from "./components/Hero";
 import Nav from "./components/Nav";
-import IntroSection from "./components/IntroSection";
 import CustomCursor from "./components/CustomCursor";
 import ContactForm from "./components/ContactForm";
 import ContactPage from "./pages/Contact";
@@ -120,18 +119,6 @@ function AppContent() {
                     transition={{ duration: 0.6 }}
                   >
                     <FeaturesSection />
-                  </motion.section>
-
-                  {/* Intro Section (About) */}
-                  <motion.section
-                    id="portfolio"
-                    className="min-h-screen relative bg-black"
-                    initial={{ scale: 0.95, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.95, opacity: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                  >
-                    <IntroSection />
                   </motion.section>
 
                   {/* Combined Contact and Footer Page */}
