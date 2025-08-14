@@ -17,12 +17,36 @@ export function ContactForm() {
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [emailError, setEmailError] = useState("");
 
-  const handleChange = (e) =>
-    setFormData((f) => ({ ...f, [e.target.name]: e.target.value }));
+  const disposableDomains = new Set([
+    "mailinator.com","guerrillamail.com","10minutemail.com","tempmail.com","yopmail.com",
+  ]);
+
+  const validateEmailLocal = (value) => {
+    if (!value) return "Email is required";
+    const basic = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if (!basic.test(value)) return "Enter a valid email address";
+    const domain = value.split("@")[1]?.toLowerCase();
+    if (!domain) return "Invalid email domain";
+    if (disposableDomains.has(domain)) return "Disposable emails are not allowed";
+    return "";
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((f) => ({ ...f, [name]: value }));
+    if (name === "email") setEmailError(validateEmailLocal(value));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const err = validateEmailLocal(formData.email);
+    setEmailError(err);
+    if (err) {
+      setStatus(err);
+      return;
+    }
     setLoading(true);
     setStatus(null);
     
@@ -135,7 +159,17 @@ export function ContactForm() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
+                  onBlur={() => setEmailError(validateEmailLocal(formData.email))}
+                  aria-invalid={!!emailError}
+                  className={cn(
+                    emailError
+                      ? "ring-2 ring-red-500 focus-visible:ring-red-500"
+                      : "focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-600"
+                  )}
                 />
+                {emailError && (
+                  <p className="text-xs text-red-400 mt-1">{emailError}</p>
+                )}
               </LabelInputContainer>
               
               <LabelInputContainer className="mb-4">
@@ -195,7 +229,7 @@ export function ContactForm() {
                 className="font-semibold text-lg"
                 type="submit"
                 as="button"
-                disabled={loading}
+                disabled={loading || !!emailError}
               >
                 {loading ? "Sending..." : "Send Message →"}
               </HoverBorderGradient>
