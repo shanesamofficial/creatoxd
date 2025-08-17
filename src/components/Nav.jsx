@@ -39,7 +39,8 @@ export default function Nav() {
 
   const handlePortfolioClick = (e) => {
     e.preventDefault();
-    goHomeAndScroll("portfolio");
+    navigate("/portfolio");
+    setIsOpen(false);
   };
 
   const handlePartnersClick = (e) => {

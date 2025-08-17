@@ -14,6 +14,7 @@ import GradientBackground from "./components/GradientBackground";
 import logo from "./assets/logo-s.png";
 import PartnersPage from './pages/Partners';
 import AboutPage from "./pages/About";
+import PortfolioPage from "./pages/Portfolio";
 
 function AppContent() {
   const [loading, setLoading] = useState(true);
@@ -332,6 +333,7 @@ function AppContent() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/partners" element={<PartnersPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/portfolio" element={<PortfolioPage />} />
       </Routes>
     </div>
   );
