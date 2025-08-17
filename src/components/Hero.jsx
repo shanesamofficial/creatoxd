@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import TextType from "./TextType";
 import ShinyText from "./ShinyText";
 import logo from "../assets/logo.png";
@@ -10,6 +11,7 @@ const Hero = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
   const { scrollY } = useScroll();
   const [isInHero, setIsInHero] = useState(true);
+  const navigate = useNavigate();
 
   // Add resize listener
   useEffect(() => {
@@ -153,6 +155,38 @@ const Hero = () => {
             cursorBlinkDuration={0.9}
           />
         </div>
+
+        {/* Contact Us Button - Desktop Only, positioned to the right */}
+        {!isMobile && (
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              right: "40px",
+              transform: "translateY(-50%)",
+              zIndex: 3,
+            }}
+          >
+            <motion.button
+              onClick={() => navigate("/contact")}
+              className="relative bg-black/20 backdrop-blur-xl border border-white/10 rounded-full px-8 py-3 text-base font-medium text-white/70 hover:text-white transition-all duration-200 shadow-2xl overflow-hidden"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {/* Glow effect on hover */}
+              <motion.div
+                className="absolute -inset-1 bg-gradient-to-r from-white/30 via-white/20 to-white/30 rounded-full blur-md opacity-0"
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              />
+
+              {/* Button content */}
+              <span className="relative z-10">
+                <ShinyText text="Contact Us!" speed={4} />
+              </span>
+            </motion.button>
+          </div>
+        )}
 
         {/* Scroll Down Indicator */}
         <motion.div
