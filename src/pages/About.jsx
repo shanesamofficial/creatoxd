@@ -4,7 +4,8 @@ import Nav from "../components/Nav";
 import CustomCursor from "../components/CustomCursor";
 import GradientBackground from "../components/GradientBackground";
 import IntroSection from "../components/IntroSection";
-import { FiMail, FiMapPin, FiClock } from "react-icons/fi";
+import { FiMail, FiMapPin, FiPhone } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
 import BlurText from "../components/BlurText";
 
 export default function AboutPage() {
@@ -58,6 +59,20 @@ export default function AboutPage() {
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {/* Phone - new card */}
+              <div className="backdrop-blur-sm bg-white/5 rounded-2xl p-6 border border-white/10">
+                <div className="flex items-center gap-3 mb-3 text-white">
+                  <FiPhone className="w-5 h-5 opacity-80" />
+                  <h3 className="font-semibold">Phone</h3>
+                </div>
+                <a
+                  href="tel:+919447690263"
+                  className="text-neutral-300 hover:text-white transition-colors"
+                >
+                  +91 94476 90263
+                </a>
+              </div>
+
               <div className="backdrop-blur-sm bg-white/5 rounded-2xl p-6 border border-white/10">
                 <div className="flex items-center gap-3 mb-3 text-white">
                   <FiMail className="w-5 h-5 opacity-80" />
@@ -78,17 +93,10 @@ export default function AboutPage() {
                 </div>
                 <p className="text-neutral-300">Kerala, India</p>
               </div>
-
-              <div className="backdrop-blur-sm bg-white/5 rounded-2xl p-6 border border-white/10">
-                <div className="flex items-center gap-3 mb-3 text-white">
-                  <FiClock className="w-5 h-5 opacity-80" />
-                  <h3 className="font-semibold">Hours</h3>
-                </div>
-                <p className="text-neutral-300">Mon–Fri, 9:00 AM – 6:00 PM IST</p>
-              </div>
             </div>
 
-            <div className="text-center mt-8">
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
+              {/* existing Get in Touch button stays if you have it */}
               <a
                 href="/contact"
                 className="inline-flex items-center gap-2 px-8 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-full transition-all duration-300"
@@ -97,6 +105,16 @@ export default function AboutPage() {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
+              </a>
+
+              <a
+                href="https://wa.me/919447690263?text=Hi%20CreatoXD!%20I%27m%20interested%20in%20your%20services."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 hover:text-emerald-200 border border-emerald-400/30 transition-colors"
+              >
+                <FaWhatsapp className="w-5 h-5" />
+                WhatsApp
               </a>
             </div>
           </motion.section>

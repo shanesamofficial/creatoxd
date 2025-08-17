@@ -6,6 +6,7 @@ import GradientBackground from "../components/GradientBackground";
 import BlurText from "../components/BlurText";
 import { FiExternalLink, FiEye, FiX } from "react-icons/fi";
 import tedxImage from "../assets/tedx.jpg";
+import ranitouchImage from "../assets/ranitouch.jpg"; // added
 
 const portfolioItems = [
   {
@@ -16,6 +17,15 @@ const portfolioItems = [
     description: "Visual identity and promotional materials for TEDxSaintgits event.",
     tags: ["Graphic Design", "Branding", "Event"],
     link: "https://www.behance.net/gallery/232697449/TedxSaintgits",
+  },
+  {
+    id: 2,
+    title: "RaniTouch",
+    image: ranitouchImage,
+    category: "Branding",
+    description: "Logo and business card design for RaniTouch.",
+    tags: ["Logo", "Business Card", "Branding"],
+    link: "https://www.behance.net/gallery/232702415/Logo-and-Business-Card",
   },
 ];
 

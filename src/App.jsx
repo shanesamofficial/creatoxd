@@ -284,6 +284,15 @@ function AppContent() {
                                 Email: team.creatoxd@gmail.com
                               </a>
                             </li>
+                            {/* Added phone */}
+                            <li className="text-gray-400">
+                              <a
+                                href="tel:+919447690263"
+                                className="hover:text-white transition-colors"
+                              >
+                                Phone: +91 94476 90263
+                              </a>
+                            </li>
                             <li className="text-gray-400">
                               Location: Kerala, India
                             </li>
