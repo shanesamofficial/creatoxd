@@ -5,7 +5,6 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { createPortal } from "react-dom";
 import { FiHome, FiGrid, FiBriefcase, FiUsers, FiMail, FiInfo } from "react-icons/fi";
 import ShinyText from "./ShinyText";
-import { HoverBorderGradient } from "./ui/hover-border-gradient";
 import logoS from "../assets/logo-s.png";
 
 export default function Nav() {
@@ -56,12 +55,19 @@ export default function Nav() {
     setIsOpen(false);
   };
 
+  const handleContactClick = (e) => {
+    e.preventDefault();
+    navigate("/contact");
+    setIsOpen(false);
+  };
+
   const navItems = [
     { name: "Home", onClick: handleHomeClick, icon: FiHome, path: "/" },
     { name: "Services", onClick: handleServicesClick, icon: FiGrid, path: "/" },
     { name: "Portfolio", onClick: handlePortfolioClick, icon: FiBriefcase, path: "/portfolio" },
     { name: "About", onClick: handleAboutClick, icon: FiInfo, path: "/about" },
     { name: "Partners", onClick: handlePartnersClick, icon: FiUsers, path: "/partners" },
+    { name: "Contact Us!", onClick: handleContactClick, icon: FiMail, path: "/contact", special: true },
   ];
 
   // Track hero section visibility
@@ -119,7 +125,7 @@ export default function Nav() {
               )}
             </AnimatePresence>
 
-            {/* Centered Glass Navigation */}
+            {/* Centered Glass Navigation with Contact */}
             <div className="absolute left-1/2 transform -translate-x-1/2">
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
@@ -142,25 +148,38 @@ export default function Nav() {
                             onMouseEnter={() => setActiveItem(i)}
                             onMouseLeave={() => setActiveItem(null)}
                             className={`relative z-10 px-6 py-2.5 text-sm font-medium transition-all duration-200 rounded-full ${
-                              isActive 
-                                ? "text-white" 
-                                : "text-white/70 hover:text-white"
+                              item.special
+                                ? isActive
+                                  ? "text-white border-2 border-white/40 bg-white/10" 
+                                  : "text-white/80 hover:text-white border-2 border-white/20 hover:border-white/40 hover:bg-white/5"
+                                : isActive 
+                                  ? "text-white" 
+                                  : "text-white/70 hover:text-white"
                             }`}
                           >
                             <ShinyText text={item.name} speed={4} />
                             
-                            {/* Active indicator */}
-                            {isActive && (
+                            {/* Active indicator for non-special items */}
+                            {isActive && !item.special && (
                               <motion.div
                                 layoutId="activeIndicator"
                                 className="absolute inset-0 bg-white/15 rounded-full -z-10 border border-white/20"
                                 transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
                               />
                             )}
+
+                            {/* Glow effect for Contact button */}
+                            {item.special && (
+                              <motion.div
+                                className="absolute -inset-1 bg-gradient-to-r from-white/30 via-white/20 to-white/30 rounded-full blur-md opacity-0"
+                                whileHover={{ opacity: 1 }}
+                                transition={{ duration: 0.3 }}
+                              />
+                            )}
                           </button>
                           
-                          {/* Hover effect */}
-                          {activeItem === i && !isActive && (
+                          {/* Hover effect for non-special items */}
+                          {activeItem === i && !isActive && !item.special && (
                             <motion.div
                               layoutId="hoverBubble"
                               className="absolute inset-0 bg-white/8 rounded-full -z-10"
@@ -175,27 +194,8 @@ export default function Nav() {
               </motion.div>
             </div>
 
-            {/* Contact Button */}
-            <div className="flex items-center">
-              <motion.button
-                onClick={() => navigate("/contact")}
-                className="relative bg-black/20 backdrop-blur-xl border border-white/10 rounded-full px-6 py-2.5 text-sm font-medium text-white/70 hover:text-white transition-all duration-200 shadow-2xl overflow-hidden"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {/* Glow effect on hover */}
-                <motion.div
-                  className="absolute -inset-1 bg-gradient-to-r from-white/30 via-white/20 to-white/30 rounded-full blur-md opacity-0"
-                  whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-                
-                {/* Button content */}
-                <span className="relative z-10">
-                  <ShinyText text="Contact Us!" speed={4} />
-                </span>
-              </motion.button>
-            </div>
+            {/* Empty space to balance the layout */}
+            <div className="w-12 h-12" />
           </div>
         </div>
 
@@ -276,7 +276,7 @@ export default function Nav() {
                   className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl max-w-sm w-full"
                 >
                   {/* Menu items */}
-                  <div className="flex flex-col gap-4 mb-6">
+                  <div className="flex flex-col gap-4 mb-0">
                     {navItems.map((item, index) => {
                       const Icon = item.icon;
                       const isActive = 
@@ -291,43 +291,30 @@ export default function Nav() {
                           transition={{ delay: index * 0.1 }}
                           onClick={item.onClick}
                           className={`relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
-                            isActive 
-                              ? "bg-white/15 text-white border border-white/20" 
-                              : "text-white/80 hover:text-white hover:bg-white/5"
+                            item.special
+                              ? isActive
+                                ? "bg-white/15 text-white border-2 border-white/40"
+                                : "text-white/80 hover:text-white border-2 border-white/20 hover:border-white/40 hover:bg-white/5"
+                              : isActive 
+                                ? "bg-white/15 text-white border border-white/20" 
+                                : "text-white/80 hover:text-white hover:bg-white/5"
                           }`}
                         >
                           <Icon className="text-base opacity-90" />
                           <span className="text-lg font-medium">{item.name}</span>
+                          
+                          {/* Glow effect for Contact in mobile */}
+                          {item.special && (
+                            <motion.div
+                              className="absolute -inset-1 bg-gradient-to-r from-white/20 via-white/10 to-white/20 rounded-xl blur-md opacity-0"
+                              whileHover={{ opacity: 1 }}
+                              transition={{ duration: 0.3 }}
+                            />
+                          )}
                         </motion.button>
                       );
                     })}
                   </div>
-
-                  {/* Contact button */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                  >
-                    <Link
-                      to="/contact"
-                      onClick={() => setIsOpen(false)}
-                      className="w-full block"
-                    >
-                      <div className="relative bg-black/20 backdrop-blur-xl border border-white/15 rounded-full px-6 py-3 text-center font-medium text-white/80 hover:text-white transition-all duration-200 overflow-hidden group">
-                        {/* Glow effect on hover */}
-                        <motion.div
-                          className="absolute -inset-1 bg-gradient-to-r from-white/20 via-white/10 to-white/20 rounded-full blur-md opacity-0 group-hover:opacity-100"
-                          transition={{ duration: 0.3 }}
-                        />
-                        
-                        <div className="relative flex items-center justify-center gap-2">
-                          <FiMail className="text-base" />
-                          <span>Contact Us!</span>
-                        </div>
-                      </div>
-                    </Link>
-                  </motion.div>
                 </motion.div>
               </div>
             </motion.div>

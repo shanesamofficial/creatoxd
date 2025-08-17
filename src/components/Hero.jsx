@@ -56,7 +56,7 @@ const Hero = () => {
         overflow: "hidden",
       }}
     >
-      {/* Background Overlay - Make it lighter and set z-index: 1 */}
+      {/* Background Overlay */}
       <div
         className="absolute inset-0"
         style={{
@@ -67,7 +67,7 @@ const Hero = () => {
         }}
       />
 
-      {/* Content Container - z-index: 2 to be above overlay */}
+      {/* Content Container */}
       <div
         className="relative"
         style={{ zIndex: 2, width: "100%", height: "100%" }}
@@ -79,7 +79,7 @@ const Hero = () => {
               position: "absolute",
               ...(isMobile
                 ? {
-                    top: "45%", // Changed from 50% to 45%
+                    top: "45%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
                   }
@@ -115,7 +115,7 @@ const Hero = () => {
             position: "absolute",
             ...(isMobile
               ? {
-                  bottom: "125px", // Changed from 100px to 125px
+                  bottom: "125px",
                   left: "50%",
                   transform: "translateX(-50%)",
                   width: "100%",
@@ -156,38 +156,6 @@ const Hero = () => {
           />
         </div>
 
-        {/* Contact Us Button - Desktop Only, positioned to the right */}
-        {!isMobile && (
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              right: "40px",
-              transform: "translateY(-50%)",
-              zIndex: 3,
-            }}
-          >
-            <motion.button
-              onClick={() => navigate("/contact")}
-              className="relative bg-black/20 backdrop-blur-xl border border-white/10 rounded-full px-8 py-3 text-base font-medium text-white/70 hover:text-white transition-all duration-200 shadow-2xl overflow-hidden"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {/* Glow effect on hover */}
-              <motion.div
-                className="absolute -inset-1 bg-gradient-to-r from-white/30 via-white/20 to-white/30 rounded-full blur-md opacity-0"
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              />
-
-              {/* Button content */}
-              <span className="relative z-10">
-                <ShinyText text="Contact Us!" speed={4} />
-              </span>
-            </motion.button>
-          </div>
-        )}
-
         {/* Scroll Down Indicator */}
         <motion.div
           initial={{ opacity: 1 }}
@@ -197,7 +165,7 @@ const Hero = () => {
             position: "absolute",
             ...(isMobile
               ? {
-                  bottom: "55px", // Changed from 30px to 55px
+                  bottom: "55px",
                   left: "50%",
                   transform: "translateX(-50%)",
                 }
