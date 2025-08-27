@@ -1,43 +1,76 @@
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect } from "react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
 import CustomCursor from "../components/CustomCursor";
 import GradientBackground from "../components/GradientBackground";
 import BlurText from "../components/BlurText";
-import { FiExternalLink, FiEye, FiX } from "react-icons/fi";
-import tedxImage from "../assets/tedx.jpg";
-import ranitouchImage from "../assets/ranitouch.jpg"; // added
+import { FiEdit3, FiMonitor, FiCamera, FiVideo, FiBriefcase, FiPenTool } from "react-icons/fi";
 
-const portfolioItems = [
+const portfolioCategories = [
   {
     id: 1,
-    title: "TEDxSaintgits",
-    image: tedxImage,
-    category: "Event Design",
-    description: "Visual identity and promotional materials for TEDxSaintgits event.",
-    tags: ["Graphic Design", "Branding", "Event"],
-    link: "https://www.behance.net/gallery/232697449/TedxSaintgits",
+    title: "Graphic Design",
+    description: "Logos, branding, print materials, and visual identity designs",
+    icon: FiPenTool,
+    route: "/portfolio/graphic-design",
+    gradient: "from-purple-500/20 to-pink-500/20",
+    iconColor: "text-purple-400",
   },
   {
     id: 2,
-    title: "RaniTouch",
-    image: ranitouchImage,
-    category: "Branding",
-    description: "Logo and business card design for RaniTouch.",
-    tags: ["Logo", "Business Card", "Branding"],
-    link: "https://www.behance.net/gallery/232702415/Logo-and-Business-Card",
+    title: "Web Development",
+    description: "Modern websites, web applications, and digital experiences",
+    icon: FiMonitor,
+    route: "/portfolio/web-development",
+    gradient: "from-blue-500/20 to-cyan-500/20",
+    iconColor: "text-blue-400",
+  },
+  {
+    id: 3,
+    title: "UI/UX Design",
+    description: "User interface and user experience design projects",
+    icon: FiEdit3,
+    route: "/portfolio/ui-ux-design",
+    gradient: "from-green-500/20 to-emerald-500/20",
+    iconColor: "text-green-400",
+  },
+  {
+    id: 4,
+    title: "Branding",
+    description: "Complete brand identity packages and visual systems",
+    icon: FiBriefcase,
+    route: "/portfolio/branding",
+    gradient: "from-orange-500/20 to-red-500/20",
+    iconColor: "text-orange-400",
+  },
+  {
+    id: 5,
+    title: "Photo Editing",
+    description: "Photo manipulation, retouching, and enhancement projects",
+    icon: FiCamera,
+    route: "/portfolio/photo-editing",
+    gradient: "from-indigo-500/20 to-purple-500/20",
+    iconColor: "text-indigo-400",
+  },
+  {
+    id: 6,
+    title: "Video Editing",
+    description: "Video production, editing, and motion graphics work",
+    icon: FiVideo,
+    route: "/portfolio/video-editing",
+    gradient: "from-rose-500/20 to-pink-500/20",
+    iconColor: "text-rose-400",
   },
 ];
 
 export default function PortfolioPage() {
-  const [preview, setPreview] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!preview) return;
-    const onKey = (e) => e.key === "Escape" && setPreview(null);
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [preview]);
+    const t = setTimeout(() => window.dispatchEvent(new Event("resize")), 100);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <div className="min-h-screen bg-black relative">
@@ -52,7 +85,7 @@ export default function PortfolioPage() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            className="text-center mb-16"
           >
             <BlurText
               text="Portfolio"
@@ -61,132 +94,69 @@ export default function PortfolioPage() {
               direction="top"
               className="font-nasalization w-full justify-center text-center text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-wider uppercase"
             />
-            <p className="mt-4 text-neutral-300 max-w-3xl mx-auto">
-              Explore our creative work and successful projects across various industries.
+            <p className="mt-6 text-neutral-300 max-w-3xl mx-auto text-lg">
+              Explore our creative work organized by categories. Click on any category to view our projects.
             </p>
           </motion.div>
 
-          {/* Portfolio Grid */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {portfolioItems.map((item, index) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -8 }}
-                className="group backdrop-blur-sm bg-white/5 rounded-2xl border border-white/10 overflow-hidden hover:border-white/20 transition-all duration-500"
-              >
-                {/* Image */}
-                <div className="relative overflow-hidden aspect-[4/3]">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <div className="flex gap-3">
-                      <button
-                        aria-label="Preview"
-                        onClick={() => setPreview(item)}
-                        className="p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
-                      >
-                        <FiEye className="w-5 h-5 text-white" />
-                      </button>
-                      <a
-                        aria-label="Open project"
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
-                      >
-                        <FiExternalLink className="w-5 h-5 text-white" />
-                      </a>
+          {/* Portfolio Categories Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {portfolioCategories.map((category, index) => {
+              const IconComponent = category.icon;
+              return (
+                <motion.div
+                  key={category.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  onClick={() => navigate(category.route)}
+                  className="group cursor-pointer"
+                >
+                  <div className={`backdrop-blur-sm bg-gradient-to-br ${category.gradient} rounded-2xl border border-white/10 overflow-hidden hover:border-white/20 transition-all duration-500 h-full`}>
+                    <div className="p-8">
+                      {/* Icon */}
+                      <div className="mb-6">
+                        <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${category.gradient} flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-all duration-300`}>
+                          <IconComponent className={`w-8 h-8 ${category.iconColor} group-hover:scale-110 transition-transform duration-300`} />
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-neutral-200 transition-colors">
+                        {category.title}
+                      </h3>
+                      
+                      <p className="text-neutral-400 leading-relaxed group-hover:text-neutral-300 transition-colors">
+                        {category.description}
+                      </p>
+
+                      {/* Hover indicator */}
+                      <div className="mt-6 flex items-center text-neutral-400 group-hover:text-white transition-colors">
+                        <span className="text-sm font-medium">View Projects</span>
+                        <motion.svg
+                          className="w-4 h-4 ml-2"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          whileHover={{ x: 4 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </motion.svg>
+                      </div>
+                    </div>
+
+                    {/* Animated border */}
+                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse" />
                     </div>
                   </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <div className="mb-3">
-                    <span className="inline-block px-3 py-1 text-xs font-medium bg-white/10 text-white rounded-full">
-                      {item.category}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-neutral-200 transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-neutral-400 text-sm mb-4 leading-relaxed">
-                    {item.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {item.tags.map((tag, tagIndex) => (
-                      <span
-                        key={tagIndex}
-                        className="px-2 py-1 text-xs bg-white/5 text-neutral-300 rounded border border-white/10"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Preview Modal */}
-          <AnimatePresence>
-            {preview && (
-              <motion.div
-                key="lightbox"
-                className="fixed inset-0 z-[2000] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setPreview(null)}
-              >
-                <motion.div
-                  className="relative max-w-5xl w-full"
-                  initial={{ scale: 0.95, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.95, opacity: 0 }}
-                  transition={{ type: "spring", stiffness: 120, damping: 18 }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <img
-                    src={preview.image}
-                    alt={preview.title}
-                    className="w-full h-auto rounded-2xl border border-white/10 shadow-2xl"
-                  />
-                  <button
-                    aria-label="Close preview"
-                    onClick={() => setPreview(null)}
-                    className="absolute -top-3 -right-3 bg-white/10 hover:bg-white/20 text-white p-2 rounded-full border border-white/20"
-                  >
-                    <FiX className="w-5 h-5" />
-                  </button>
                 </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {portfolioItems.length === 1 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-              className="text-center mt-16 text-neutral-400"
-            >
-              <p>More projects coming soon...</p>
-            </motion.div>
-          )}
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

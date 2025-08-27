@@ -15,6 +15,8 @@ import logo from "./assets/logo-s.png";
 import PartnersPage from './pages/Partners';
 import AboutPage from "./pages/About";
 import PortfolioPage from "./pages/Portfolio";
+import GraphicDesignPage from "./pages/portfolio/GraphicDesign";
+import VideoEditingPage from "./pages/portfolio/VideoEditing";
 
 function AppContent() {
   const [loading, setLoading] = useState(true);
@@ -341,8 +343,10 @@ function AppContent() {
         />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/partners" element={<PartnersPage />} />
-        <Route path="/contact" element={<ContactPage />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
+        <Route path="/portfolio/graphic-design" element={<GraphicDesignPage />} />
+        <Route path="/portfolio/video-editing" element={<VideoEditingPage />} />
+        {/* Add more portfolio category routes as needed */}
       </Routes>
     </div>
   );

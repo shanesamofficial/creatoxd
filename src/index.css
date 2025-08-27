@@ -257,3 +257,8 @@ nav.scrolled {
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }
+
+/* Add aspect ratio utilities if not already present */
+.aspect-\[4\/3\] {
+  aspect-ratio: 4 / 3;
+}
