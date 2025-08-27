@@ -7,33 +7,44 @@ import GradientBackground from "../../components/GradientBackground";
 import BlurText from "../../components/BlurText";
 import { FiEye, FiExternalLink, FiX, FiArrowLeft, FiPlay } from "react-icons/fi";
 
-// Import video
-import athenaVideo from "../../assets/athena1.mp4";
+// Import only thumbnails since videos are external
+import athenaThumbnail from "../../assets/athena1.png";
+import auraVisualizerThumbnail from "../../assets/aura_visualizer.png";
 
 const videoEditingProjects = [
   {
     id: 1,
     title: "PROJECT ATHENA",
-    video: athenaVideo,
-    thumbnail: null, // Will be generated from video
+    video: null, // No local video since it's external
+    thumbnail: athenaThumbnail,
     category: "Promo Video",
-    description: "Short Event Promo video typography based on dynamic text animations.",
-    tags: ["Video Editing", "Teaser", "Sound Mixing"],
-    link: "#", // You can add external link if needed
+    description: "A creative minimal design video project showcasing cinematic storytelling and advanced editing techniques.",
+    tags: ["Video Editing", "Cinematography", "Post Production"],
+    link: "https://drive.google.com/file/d/12YYpBNN-M5AxbWTCrkupDqeh1_P_6F8B/view?usp=sharing",
+    isExternal: true,
+  },
+  {
+    id: 2,
+    title: "Aura Visualizer",
+    video: null, // No local video since it's external
+    thumbnail: auraVisualizerThumbnail,
+    category: "Music Video",
+    description: "Creative video visualizer for a song by Aura Records featuring dynamic visual effects and audio synchronization.",
+    tags: ["Video Editing", "Music Video", "Visual Effects", "Audio Sync"],
+    link: "https://drive.google.com/file/d/1WBFlesqg90gCqlIl8077vUAODNiycBkB/view?usp=sharing",
+    isExternal: true,
   },
 ];
 
 export default function VideoEditingPage() {
   const [preview, setPreview] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [playingVideo, setPlayingVideo] = useState(null);
   const navigate = useNavigate();
 
   // Force component to re-render and clean up state
   useEffect(() => {
     setIsLoaded(false);
     setPreview(null);
-    setPlayingVideo(null);
     
     const timer = setTimeout(() => {
       setIsLoaded(true);
@@ -42,7 +53,6 @@ export default function VideoEditingPage() {
     return () => {
       clearTimeout(timer);
       setPreview(null);
-      setPlayingVideo(null);
     };
   }, []);
 
@@ -52,6 +62,16 @@ export default function VideoEditingPage() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [preview]);
+
+  const handlePlayClick = (item) => {
+    if (item.isExternal && item.link !== "#") {
+      // Open Google Drive link in new tab
+      window.open(item.link, '_blank');
+    } else {
+      // Use local video in modal (not applicable for these external videos)
+      setPreview(item);
+    }
+  };
 
   // Don't render until loaded
   if (!isLoaded) {
@@ -125,44 +145,27 @@ export default function VideoEditingPage() {
                 className="group backdrop-blur-sm bg-white/5 rounded-2xl border border-white/10 overflow-hidden hover:border-white/20 transition-all duration-500"
               >
                 {/* Video Container */}
-                <div className="relative overflow-hidden aspect-video">
-                  <video
+                <div className="relative overflow-hidden aspect-video bg-gray-900">
+                  {/* Show thumbnail for external videos */}
+                  <img
+                    src={item.thumbnail}
+                    alt={item.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    muted
-                    loop
-                    playsInline
-                    onMouseEnter={(e) => e.target.play()}
-                    onMouseLeave={(e) => e.target.pause()}
-                    onLoadedData={() => console.log(`Loaded: ${item.title}`)}
                     onError={(e) => {
-                      console.error("Video failed to load:", item.video);
+                      console.error("Thumbnail failed to load:", item.thumbnail);
                     }}
-                  >
-                    <source src={item.video} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
+                  />
                   
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <div className="flex gap-3">
                       <button
-                        aria-label="Preview"
-                        onClick={() => setPreview(item)}
+                        aria-label="Watch on Google Drive"
+                        onClick={() => handlePlayClick(item)}
                         className="p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
                       >
                         <FiPlay className="w-5 h-5 text-white ml-1" />
                       </button>
-                      {item.link !== "#" && (
-                        <a
-                          aria-label="Open project"
-                          href={item.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
-                        >
-                          <FiExternalLink className="w-5 h-5 text-white" />
-                        </a>
-                      )}
                     </div>
                   </div>
 
@@ -171,6 +174,11 @@ export default function VideoEditingPage() {
                     <div className="w-16 h-16 bg-black/30 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <FiPlay className="w-6 h-6 text-white ml-1" />
                     </div>
+                  </div>
+
+                  {/* External video indicator */}
+                  <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm px-2 py-1 rounded-full">
+                    <FiExternalLink className="w-3 h-3 text-white/80" />
                   </div>
                 </div>
 
@@ -205,54 +213,6 @@ export default function VideoEditingPage() {
               </motion.div>
             ))}
           </motion.div>
-
-          {/* Preview Modal */}
-          <AnimatePresence>
-            {preview && (
-              <motion.div
-                key="video-lightbox"
-                className="fixed inset-0 z-[2000] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setPreview(null)}
-              >
-                <motion.div
-                  className="relative max-w-5xl w-full"
-                  initial={{ scale: 0.95, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.95, opacity: 0 }}
-                  transition={{ type: "spring", stiffness: 120, damping: 18 }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {/* Video Player */}
-                  <video
-                    className="w-full h-auto rounded-2xl border border-white/10 shadow-2xl"
-                    controls
-                    autoPlay
-                    playsInline
-                  >
-                    <source src={preview.video} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                  
-                  {/* Video Info */}
-                  <div className="mt-4 text-center">
-                    <h3 className="text-2xl font-bold text-white mb-2">{preview.title}</h3>
-                    <p className="text-neutral-300">{preview.description}</p>
-                  </div>
-
-                  <button
-                    aria-label="Close preview"
-                    onClick={() => setPreview(null)}
-                    className="absolute -top-3 -right-3 bg-white/10 hover:bg-white/20 text-white p-2 rounded-full border border-white/20"
-                  >
-                    <FiX className="w-5 h-5" />
-                  </button>
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
       </div>
     </div>
