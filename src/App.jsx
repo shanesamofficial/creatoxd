@@ -17,6 +17,10 @@ import AboutPage from "./pages/About";
 import PortfolioPage from "./pages/Portfolio";
 import GraphicDesignPage from "./pages/portfolio/GraphicDesign";
 import VideoEditingPage from "./pages/portfolio/VideoEditing";
+import WebDevelopmentPage from "./pages/portfolio/WebDevelopment";
+import UIUXDesignPage from "./pages/portfolio/UIUXDesign";
+import BrandingPage from "./pages/portfolio/Branding";
+import PhotoEditingPage from "./pages/portfolio/PhotoEditing";
 
 function AppContent() {
   const [loading, setLoading] = useState(true);
@@ -346,6 +350,10 @@ function AppContent() {
         <Route path="/portfolio" element={<PortfolioPage />} />
         <Route path="/portfolio/graphic-design" element={<GraphicDesignPage />} />
         <Route path="/portfolio/video-editing" element={<VideoEditingPage />} />
+        <Route path="/portfolio/web-development" element={<WebDevelopmentPage />} />
+        <Route path="/portfolio/ui-ux-design" element={<UIUXDesignPage />} />
+        <Route path="/portfolio/branding" element={<BrandingPage />} />
+        <Route path="/portfolio/photo-editing" element={<PhotoEditingPage />} />
         {/* Add more portfolio category routes as needed */}
       </Routes>
     </div>
