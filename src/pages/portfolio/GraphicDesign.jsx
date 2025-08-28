@@ -9,6 +9,8 @@ import { FiEye, FiExternalLink, FiX, FiArrowLeft } from "react-icons/fi";
 
 // Import images correctly
 import tedxImage from "../../assets/tedx.jpg";
+import auramagImage from "../../assets/auramag.jpg";
+import bjiposterImage from "../../assets/bjiposter.jpg";
 
 const graphicDesignProjects = [
   {
@@ -19,6 +21,24 @@ const graphicDesignProjects = [
     description: "Visual identity and promotional materials for TEDxSaintgits event.",
     tags: ["Graphic Design", "Event Design", "Visual Identity"],
     link: "https://www.behance.net/gallery/232697449/TedxSaintgits",
+  },
+  {
+    id: 2,
+    title: "AURA Magazine",
+    image: auramagImage,
+    category: "Magazine Design",
+    description: "Magazine cover design featuring creative color palette and typography selection for Auramag publication.",
+    tags: ["Magazine Cover", "Color Palette", "Typography", "Print Design"],
+    link: "https://www.behance.net/gallery/233461987/Magazine-Design",
+  },
+  {
+    id: 3,
+    title: "BJI College Event Poster",
+    image: bjiposterImage,
+    category: "Poster Design",
+    description: "Creative poster design for college event featuring modern typography and visual elements.",
+    tags: ["Poster Design", "Event Poster", "Typography", "College Event"],
+    link: "https://www.behance.net/gallery/233463305/College-Event-Poster-Design",
   },
 ];
 
@@ -98,7 +118,7 @@ export default function GraphicDesignPage() {
                 className="font-nasalization w-full justify-center text-center text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-wider uppercase"
               />
               <p className="mt-6 text-neutral-300 max-w-3xl mx-auto text-lg">
-                Creative visual solutions including event design, promotional materials, and digital graphics.
+                Creative visual solutions including event design, magazine covers, poster design, and promotional materials.
               </p>
             </div>
           </motion.div>
@@ -142,15 +162,17 @@ export default function GraphicDesignPage() {
                       >
                         <FiEye className="w-5 h-5 text-white" />
                       </button>
-                      <a
-                        aria-label="Open project"
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
-                      >
-                        <FiExternalLink className="w-5 h-5 text-white" />
-                      </a>
+                      {item.link !== "#" && (
+                        <a
+                          aria-label="Open project"
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
+                        >
+                          <FiExternalLink className="w-5 h-5 text-white" />
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -158,7 +180,13 @@ export default function GraphicDesignPage() {
                 {/* Content */}
                 <div className="p-6">
                   <div className="mb-3">
-                    <span className="inline-block px-3 py-1 text-xs font-medium bg-purple-500/20 text-purple-300 rounded-full border border-purple-400/30">
+                    <span className={`inline-block px-3 py-1 text-xs font-medium rounded-full border ${
+                      item.category === "Magazine Design" 
+                        ? "bg-cyan-500/20 text-cyan-300 border-cyan-400/30"
+                        : item.category === "Poster Design"
+                        ? "bg-green-500/20 text-green-300 border-green-400/30"
+                        : "bg-purple-500/20 text-purple-300 border-purple-400/30"
+                    }`}>
                       {item.category}
                     </span>
                   </div>
@@ -220,7 +248,13 @@ export default function GraphicDesignPage() {
                       {preview.tags.map((tag, tagIndex) => (
                         <span
                           key={tagIndex}
-                          className="px-3 py-1 text-xs bg-purple-500/20 text-purple-300 rounded-full border border-purple-400/30"
+                          className={`px-3 py-1 text-xs rounded-full border ${
+                            preview.category === "Magazine Design"
+                              ? "bg-cyan-500/20 text-cyan-300 border-cyan-400/30"
+                              : preview.category === "Poster Design"
+                              ? "bg-green-500/20 text-green-300 border-green-400/30"
+                              : "bg-purple-500/20 text-purple-300 border-purple-400/30"
+                          }`}
                         >
                           {tag}
                         </span>
