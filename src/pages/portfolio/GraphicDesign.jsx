@@ -9,8 +9,6 @@ import { FiEye, FiExternalLink, FiX, FiArrowLeft } from "react-icons/fi";
 
 // Import images correctly
 import tedxImage from "../../assets/tedx.jpg";
-import ranitouchImage from "../../assets/ranitouch.jpg";
-import invenzaImage from "../../assets/Invenza.jpg";
 
 const graphicDesignProjects = [
   {
@@ -19,26 +17,8 @@ const graphicDesignProjects = [
     image: tedxImage,
     category: "Event Design",
     description: "Visual identity and promotional materials for TEDxSaintgits event.",
-    tags: ["Graphic Design", "Branding", "Event"],
+    tags: ["Graphic Design", "Event Design", "Visual Identity"],
     link: "https://www.behance.net/gallery/232697449/TedxSaintgits",
-  },
-  {
-    id: 2,
-    title: "RaniTouch",
-    image: ranitouchImage,
-    category: "Logo Design", 
-    description: "Logo and business card design for RaniTouch.",
-    tags: ["Logo", "Business Card", "Branding"],
-    link: "https://www.behance.net/gallery/232702415/Logo-and-Business-Card",
-  },
-  {
-    id: 3,
-    title: "Invenza",
-    image: invenzaImage,
-    category: "Brand Identity",
-    description: "Complete brand identity package including logo design, business card design, and flex board design for pharmaceutical company.",
-    tags: ["Logo Design", "Business Card", "Flex Board", "Branding"],
-    link: "https://www.behance.net/gallery/233436253/Logo-Design-Pharmaceutical-Company",
   },
 ];
 
@@ -118,7 +98,7 @@ export default function GraphicDesignPage() {
                 className="font-nasalization w-full justify-center text-center text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-wider uppercase"
               />
               <p className="mt-6 text-neutral-300 max-w-3xl mx-auto text-lg">
-                Creative visual solutions including logos, branding, print materials, and digital designs.
+                Creative visual solutions including event design, promotional materials, and digital graphics.
               </p>
             </div>
           </motion.div>
