@@ -354,6 +354,7 @@ function AppContent() {
         <Route path="/portfolio/ui-ux-design" element={<UIUXDesignPage />} />
         <Route path="/portfolio/branding" element={<BrandingPage />} />
         <Route path="/portfolio/photo-editing" element={<PhotoEditingPage />} />
+        <Route path="/contact" element={<ContactPage />} />
         {/* Add more portfolio category routes as needed */}
       </Routes>
     </div>
