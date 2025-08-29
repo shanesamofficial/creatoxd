@@ -11,6 +11,7 @@ import { FiEye, FiExternalLink, FiX, FiArrowLeft } from "react-icons/fi";
 import tedxImage from "../../assets/tedx.jpg";
 import auramagImage from "../../assets/auramag.jpg";
 import bjiposterImage from "../../assets/bjiposter.jpg";
+import carPosters from "../../assets/carp.jpg";
 
 const graphicDesignProjects = [
   {
@@ -39,6 +40,16 @@ const graphicDesignProjects = [
     description: "Creative poster design for college event featuring modern typography and visual elements.",
     tags: ["Poster Design", "Event Poster", "Typography", "College Event"],
     link: "https://www.behance.net/gallery/233463305/College-Event-Poster-Design",
+  },
+  {
+    id: "car-posters",
+    title: "Car Posters",
+    image: carPosters,
+    category: "Graphic Design",
+    description:
+      "Modern, stylish car poster series exploring lighting, contrast and bold automotive aesthetics.",
+    tags: ["Poster", "Automotive", "Graphic Design"],
+    link: "https://www.behance.net/gallery/233540917/Car-Poster-Design",
   },
 ];
 
