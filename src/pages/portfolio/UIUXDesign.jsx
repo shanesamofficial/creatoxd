@@ -9,6 +9,7 @@ import { FiArrowLeft, FiEye, FiExternalLink, FiX } from "react-icons/fi";
 
 // Import image
 import creatoUIImage from "../../assets/creato-ui.jpg";
+import parkrunImage from "../../assets/parkrun.jpg";
 
 const uiuxProjects = [
 	{
@@ -20,6 +21,16 @@ const uiuxProjects = [
 			"Complete UI/UX design for CreatoXD's main website featuring modern aesthetics, intuitive navigation, and responsive layout.",
 		tags: ["UI Design", "UX Design", "Web Design", "Figma", "Responsive"],
 		link: "https://www.behance.net/gallery/233536477/CreatoXD-Main-Website",
+	},
+	{
+		id: 2,
+		title: "Marathon Website Design",
+		image: parkrunImage,
+		category: "Web UI Design",
+		description:
+			"UI/UX design for a marathon event platform focusing on registration flow, schedule visibility, and energetic brand styling.",
+		tags: ["UI Design", "UX", "Web", "Responsive", "Figma"],
+		link: "https://www.behance.net/gallery/233541559/Marathon-Website-Design",
 	},
 ];
 
