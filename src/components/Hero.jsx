@@ -63,14 +63,14 @@ const Hero = () => {
       <div className="relative" style={{ zIndex: 2, width: "100%", height: "100%" }}>
         {/* Removed bottom-left desktop logo block */}
         
-        {/* Desktop centered logo (bigger) + animated text directly below */}
+        {/* Desktop centered logo + fixed-distance animated text (updated) */}
         {!isMobile && (
           <div
             style={{
               position: "absolute",
-              top: "28%",
+              top: "29%",
               left: "50%",
-              transform: "translate(-50%, -52%)", // slight lift so text sits nicely below
+              transform: "translate(-50%, -50%)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -78,6 +78,7 @@ const Hero = () => {
               zIndex: 3,
               pointerEvents: "none",
               maxWidth: "92vw",
+              // gap removed to lock spacing; using explicit margin on text instead
             }}
           >
             <motion.img
@@ -87,7 +88,8 @@ const Hero = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
               style={{
-                height: "100vh",          // increased size (viewport-based)
+                height: "100vh",
+                maxHeight: "900px",
                 width: "auto",
                 objectFit: "contain",
                 maxWidth: "1400px",
@@ -95,15 +97,16 @@ const Hero = () => {
             />
             <div
               style={{
-                marginTop: "-425px",        // tight gap just below logo
-                fontSize: "1.2rem",         // larger, clearly visible
+                marginTop: "-350px",              // fixed distance below logo
+                fontSize: "1.25rem",
                 fontWeight: 500,
                 lineHeight: 1.1,
                 letterSpacing: "1.5px",
                 fontFamily: "'Montserrat','Poppins','Segoe UI',sans-serif",
-                minHeight: "2.4rem",
+                minHeight: "2.6rem",            // reserves space so typing doesn't shift upward
                 color: "#FFFFFF",
                 textShadow: "0 0 12px rgba(255,255,255,0.25)",
+                width: "100%",
               }}
             >
               <TextType
