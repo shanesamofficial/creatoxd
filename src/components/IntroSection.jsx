@@ -19,7 +19,7 @@ export default function IntroSection({ compact = false }) {
     },
     {
       icon: FaBehance,
-      href: "https://www.behance.net/your-profile",
+      href: "https://www.behance.net/shanesam2",
       label: "Behance",
     },
     {
